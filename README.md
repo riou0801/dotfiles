@@ -13,9 +13,12 @@
   2. `chezmoi add ~/path/to/config`
   3. `chezmoi apply`
   4. `chezmoi cd` or `chezmoi git -- [args]`
-  5. ```git add .  git commit -m "commit message"  git push -u origin main
+  5. ```
+     git add .  
+     git commit -m "commit message"
+     git push -u origin main
      ```
-  6. `exit` # finish subshell
+  7. `exit` # finish subshell
 
 ## sync the config
   - `chezmoi init https://github.com/myrepo/dotfiles.git`
