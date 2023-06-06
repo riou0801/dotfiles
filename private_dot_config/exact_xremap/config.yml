@@ -1,0 +1,20 @@
+# 単純にcapslockを別のキーに変えたいだけ
+# そう思っていたがもはやus->JISという荒業にする
+modmap:
+  - name: hate xkb_options
+    remap:
+      CONTROL_R: ALT_R
+      CapsLock: CONTROL_R
+      Muhenkan: Shift_L
+          
+#      
+#      YEN: YEN|
+#     @`GRAVE
+#      [{
+#      ]}
+#      ;+
+#      :*
+#      \_
+
+
+      

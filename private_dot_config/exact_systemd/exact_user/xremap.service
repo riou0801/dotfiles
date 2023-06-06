@@ -1,0 +1,11 @@
+[Unit]
+Description=xremap
+
+[Service]
+KillMode=process
+ExecStart=/home/riou/.cargo/bin/xremap /home/riou/.config/xremap/config.yml
+ExecStop=/usr/bin/killall xremap
+Restart=always
+
+[Install]
+WantedBy=default.target

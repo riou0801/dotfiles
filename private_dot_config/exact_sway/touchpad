@@ -1,0 +1,13 @@
+input "6785:8295:Fujitsu_FMV_Mobile_Keyboard_Touchpad" {
+  pointer_accel 0.3
+  natural_scroll enabled
+  scroll_factor 0.3
+  scroll_method two_finger
+  left_handed disabled
+  tap enabled
+  tap_button_map lrm
+  drag enabled
+  drag_lock disabled
+  dwt enabled
+  middle_emulation disabled
+}
