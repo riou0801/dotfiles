@@ -6,7 +6,7 @@ default: helix
 # (Optional)
 # key (the command you want to use): [values] (extensions)
 exec:
-   feh:
+   imv:
      [jpg, jpeg, png, gif, svg]
    zathura:
      [pdf]
@@ -27,12 +27,12 @@ syntax_highlight: true
 #    SolarizedDark
 #    SolarizedLight
 # If not set, will default to "Base16OceanDark".
-default_theme: SolarizedDark
+# default_theme: SolarizedDark
 
 # (Optional)
 # Path to .tmtheme file for the syntax highlighting.
 # If not set, default_theme will be used.
-theme_path: "/home/riou/.config/felix/bat/Catppuccin-mocha.tmTheme"
+theme_path: "/home/riou/.config/felix/Catppuccin-mocha.tmTheme"
 
 # The foreground color of directory, file and symlink.
 # Pick one of the following:

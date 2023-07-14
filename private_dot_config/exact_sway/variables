@@ -1,5 +1,4 @@
 set $term foot
-set $browser microsoft-edge-stable  --proxy-server="172.16.1.2:15080,direct://" --gtk-version=4
+set $browser vivaldi-stable
 set $filemanager nautilus
 set $editor helix
-set $exit nwg-bar -p center -a middle -i 48 -s preset-2.css

@@ -1,9 +1,6 @@
-exec rm /tmp/nwg-shell-check-update.lock
-exec swaync -s /home/riou/.config/swaync/preset-2.css
-exec nm-applet --indicator
-exec_always nwg-autotiling
-exec_always nwg-panel -c preset-2 -s preset-2.css
-exec_always nwg-shell-check-updates
-exec swayidle timeout 1200 nwg-lock timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' 
-exec nwg-update-indicator
-exec nwg-shell-config
+exec_always fnott
+exec_always lystra --playing "󰝚 " --paused "󰏤 " --playbackcolor "#9CABCA" --separator ": " --order "title,artist" --mediaplayer ""  --autotoggle
+exec blueman-applet
+exec udiskie -ant --appindicator
+exec_always autotiling
+exec swayidle timeout 1200 swaylock timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' 

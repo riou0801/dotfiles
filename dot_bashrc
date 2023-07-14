@@ -12,13 +12,13 @@ PS1='[\u@\h \W]\$ '
 exec fish
 
 #デフォルトキーレイアウトの変更（Sway）
-export XKB_DEFAULT_LAYOUT=jp(OADG109A)
+#export XKB_DEFAULT_LAYOUT=jp(OADG109A) ->/etc/environment
 
 export MICRO_TRUECOLOR=1
+export EDITOR=helix
 
 #pathを通す
 export PATH=$PATH:~/.local/bin:~/.cargo/bin
-
 
 #proxy
 #export http_proxy="http://172.16.1.2:15080/"
@@ -31,3 +31,5 @@ export PATH=$PATH:~/.local/bin:~/.cargo/bin
 export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
 #export https_proxy="http://172.16.1.2:15080/"
 #export HTTPS_PROXY="http://172.16.1.2:15080/"
+
+. "$HOME/.cargo/env"

@@ -27,7 +27,7 @@ default_border pixel 1
 
 # gaps
 gaps inner 4
-gaps outer 0
+gaps outer 4
 smart_gaps on
 
 # font
@@ -62,13 +62,11 @@ exec wl-paste --watch cliphist store
 exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 
-
-exec blueberry-tray
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec hash dbus-update-activation-environment 2>/dev/null && \
     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec ~/.azotebg
+
 
 ### Turn off screen on lid closed
 set $laptop eDP-1
@@ -93,13 +91,12 @@ bindsym $Mod+d            exec $dock
 bindsym $Mod+e            exec $editor
 bindsym $Mod+w            exec $browser
 bindsym Control+space     exec fuzzel
-bindsym Control+Mod1+space  exec cliphist list | wofi --show dmenu | cliphist decode | wl-copy
-bindsym Mod1+space        exec clipman pick --tool=CUSTOM --tool-args="fuzzel -d --config=/home/riou/.config/fuzzel/fuzzel_1.ini"
+bindsym Mod1+space exec cliphist list | fuzzel -d | cliphist decode | wl-copy
+# bindsym Mod1+space        exec clipman pick --tool=CUSTOM --tool-args="fuzzel -d"
 bindsym Mod1+F1           exec $launcher
 bindsym $Mod+f            exec $filemanager
-bindsym $Mod+c            exec swaync-client -t
-bindsym Mod1+l            exec nwg-lock
-bindsym $Mod+F1           exec nwg-shell-help
+bindsym $Mod+c            exec fnottctl list
+bindsym Mod1+l            exec swaylock
 
 # Exit menu
 bindsym $Mod+x exec $exit
@@ -121,13 +118,13 @@ bindsym $Mod+Shift+Control+Print exec screenshot focused
 bindsym $Mod+comma exec playerctl previous
 bindsym $Mod+period exec playerctl play-pause
 bindsym $Mod+slash exec playerctl next
-bindsym XF86AudioMute exec pamixer -t
-bindsym XF86AudioRaiseVolume exec pamixer -i 2
-bindsym XF86AudioLowerVolume exec pamixer -d 2
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
 
 # backlight
-bindsym XF86MonBrightnessUp exec light -A 5
-bindsym XF86MonBrightnessDown exec light -U 5
+# bindsym XF86MonBrightnessUp exec light -A 5
+# bindsym XF86MonBrightnessDown exec light -U 5
 
 # Reload the configuration file
 bindsym $Mod+Shift+c reload
@@ -296,3 +293,11 @@ for_window [class="Code"] floating enable
 for_window [app_id="(?i)(?:code-url-handler|org.gnome.Nautilus|nemo|Slack)"] floating enable
 for_window [app_id="(?i)(?:Slack|msedge-_agimnkijcaahngcdmfeangaknmldooml-Default|spotube)"] move to scratchpad
 popup_during_fullscreen smart
+
+#####    waybar    #####
+bar {
+    swaybar_command waybar
+}
+
+#####    swaybg    #####
+output "*" background ~/.config/background/arch-black-4k.png fill

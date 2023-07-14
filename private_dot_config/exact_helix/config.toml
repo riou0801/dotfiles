@@ -26,6 +26,7 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+parents = false
 
 [editor.auto-pairs]
 '(' = ')'
@@ -47,4 +48,17 @@ layout = ["diff", "diagnostics", "line-numbers", "spacer"]
 enable = true
 max-wrap = 25 # increase value to reduce forced mid-word wrapping
 max-indent-retain = 0
-wrap-indicator = ""  # set wrap-indicator to "" to hide it
+wrap-indicator = "↪"  # set wrap-indicator to "" to hide it
+
+# At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
+[keys.normal]
+C-s = ":w" # Maps Ctrl-s to the typable command :w which is an alias for :write (save file)
+C-o = ":open ~/.config/helix/config.toml" # Maps Ctrl-o to opening of the helix config file
+"C-S-esc" = "extend_line" # Maps Ctrl-Shift-Escape to extend_line
+g = { a = "code_action" } # Maps `ga` to show possible code actions
+"ret" = ["open_below", "normal_mode"] # Maps the enter key to open_below then re-enter normal mode
+
+[keys.insert]
+"C-v" = ":clipboard-paste-after"     # Maps Ctrl-v to paste clipboad
+j = { k = "normal_mode" } # Maps `jk` to exit insert mode
+
