@@ -1,4 +1,4 @@
-set $term foot
+set $term footclient
 set $browser vivaldi-stable
-set $filemanager nautilus
+set $filemanager nemo
 set $editor helix

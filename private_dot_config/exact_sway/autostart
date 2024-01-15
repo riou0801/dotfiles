@@ -1,6 +1,10 @@
-exec_always fnott
+exec mako
+exec /home/riou/.local/bin/wzmach
 exec_always lystra --playing "󰝚 " --paused "󰏤 " --playbackcolor "#9CABCA" --separator ": " --order "title,artist" --mediaplayer ""  --autotoggle
 exec blueman-applet
 exec udiskie -ant --appindicator
 exec_always autotiling
-exec swayidle timeout 1200 swaylock timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' 
+exec foot --server
+# exec beeper --enable-features=UseOzonePlatform  --ozone-platform-hint=auto --hidden
+exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
+exec swayidle timeout 1200 swaylock timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' 

@@ -52,10 +52,18 @@ theme_path: "/home/riou/.config/felix/Catppuccin-mocha.tmTheme"
 #     LightMagenta    // 13
 #     LightCyan       // 14
 #     LightWhite      // 15
-#     Rgb(u8, u8, u8)
+#     !Rgb [u8, u8, u8]
 #     AnsiValue(u8)
 # For more details, see https://docs.rs/termion/1.5.6/termion/color/index.html
+# color:
+  # dir_fg: LightCyan
+  # file_fg: LightWhite
+  # symlink_fg: LightYellow
+  # dirty_fg: Red
+
+# Catppuccin mocha
 color:
-  dir_fg: LightCyan
-  file_fg: LightWhite
-  symlink_fg: LightYellow
+  dir_fg: !Rgb [148, 226, 213]
+  file_fg: !Rgb [205, 214, 244]
+  symlink_fg: !Rgb [249, 226, 175]
+  dirty_fg: !Rgb [235, 160, 172]

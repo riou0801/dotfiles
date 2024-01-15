@@ -14,8 +14,9 @@ exec fish
 #デフォルトキーレイアウトの変更（Sway）
 #export XKB_DEFAULT_LAYOUT=jp(OADG109A) ->/etc/environment
 
-export MICRO_TRUECOLOR=1
-export EDITOR=helix
+# export MICRO_TRUECOLOR=1
+# export EDITOR=helix
+export WAVESHELL=bash
 
 #pathを通す
 export PATH=$PATH:~/.local/bin:~/.cargo/bin

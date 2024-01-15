@@ -1,18 +1,23 @@
-theme = "catppuccin_mocha"
+theme = "catppuccin_mocha_d"
 
 [editor]
 line-number = "absolute"
 mouse = true
+cursorline = true
+cursorcolumn = false
 auto-completion = true
 auto-format = true
 auto-info = true
+preview-completion-insert = false
+completion-trigger-len = 3
+completion-replace = true
 bufferline = "multiple"
 true-color = true
 color-modes = true
 
 [editor.statusline]
 left = ["mode", "spinner"]
-center = ["file-name"]
+center = ["file-name", "read-only-indicator"]
 right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
 separator = "│"
 mode.normal = "NORMAL"
@@ -26,7 +31,7 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
-parents = false
+parents = true
 
 [editor.auto-pairs]
 '(' = ')'
@@ -50,6 +55,15 @@ max-wrap = 25 # increase value to reduce forced mid-word wrapping
 max-indent-retain = 0
 wrap-indicator = "↪"  # set wrap-indicator to "" to hide it
 
+[editor.lsp]
+enable = true
+display-messages = true
+auto-signature-help = false
+display-inlay-hints = false
+display-signature-help-docs = false
+snippets = true
+goto-reference-include-declaration = true
+
 # At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
 [keys.normal]
 C-s = ":w" # Maps Ctrl-s to the typable command :w which is an alias for :write (save file)
@@ -61,4 +75,5 @@ g = { a = "code_action" } # Maps `ga` to show possible code actions
 [keys.insert]
 "C-v" = ":clipboard-paste-after"     # Maps Ctrl-v to paste clipboad
 j = { k = "normal_mode" } # Maps `jk` to exit insert mode
+"esc" = [":sh fcitx5-remote -c", "normal_mode"]
 

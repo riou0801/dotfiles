@@ -12,14 +12,6 @@ include touchpad
 # nwg-shell sway config
 # Read `man 5 sway` for reference.
 
-# keyboard
-input "6785:8295:Fujitsu_FMV_Mobile_Keyboard" {
-  xkb_layout jp(OADG109A)
-  repeat_delay 300
-  repeat_rate 40
-  xkb_capslock disabled
-  xkb_numlock disabled
-}
 
 # border & title
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
@@ -86,8 +78,8 @@ bindsym Mod1+Shift+Return exec $term
 bindsym Control+Shift+t   exec $term
 bindsym $Mod+t            exec $term
 bindsym $Mod+F2           exec $term
-bindsym $Mod+s            exec nwg-shell-config
-bindsym $Mod+d            exec $dock
+# bindsym $Mod+s            exec nwg-shell-config
+# bindsym $Mod+d            exec $dock
 bindsym $Mod+e            exec $editor
 bindsym $Mod+w            exec $browser
 bindsym Control+space     exec fuzzel
@@ -105,10 +97,10 @@ bindsym $Mod+x exec $exit
 bindsym $Mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # screenshot
-bindsym Print exec screenshot fullscreen
-bindsym Control+Print exec screenshot display
-bindsym Shift+Control+Print exec grim -g "$(slurp)" - | swappy -f -
-bindsym $Mod+Shift+Control+Print exec screenshot focused
+bindsym Print exec haruhishot --gui
+bindsym Control+Print exec haruhishot -S (slurp d) --stdout | wl-copy
+# bindsym Shift+Control+Print exec grim -g "$(slurp)" - | swappy -f -
+# bindsym $Mod+Shift+Control+Print exec screenshot focused
 
 # audio
 # bindsym XF86AudioPlay exec playerctl play-pause
@@ -186,12 +178,12 @@ floating_modifier Mod1 normal
 
 # Move the currently focused window to the scratchpad
 bindsym $Mod+Shift+z move scratchpad
-bindgesture swipe:up move scratchpad
+bindgesture --exact swipe:3:down move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $Mod+z scratchpad show
-bindgesture swipe:down scratchpad show
+bindgesture --exact swipe:4:down scratchpad show
 
 # change focus
 bindsym $Mod+$left  focus left
@@ -285,13 +277,13 @@ bindsym Mod1+KP_Subtract         gaps outer current minus 5
 
 # focus, floating, & sticky
 for_window [app_id="(?i)(?:blueman-manager|blueberry|azote|gnome-disks)"] floating enable
-for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|gsimplecal|galculator)"] floating enable
+for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|org.twosheds.iwgtk)"] floating enable
 for_window [app_id="(?i)(?:nwg-shell-config|nwg-panel-config|nwg-look|nwg-displays)"] floating enable
 for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
-for_window [class="Code"] floating enable
-for_window [app_id="(?i)(?:code-url-handler|org.gnome.Nautilus|nemo|Slack)"] floating enable
-for_window [app_id="(?i)(?:Slack|msedge-_agimnkijcaahngcdmfeangaknmldooml-Default|spotube)"] move to scratchpad
+# for_window [class="code"] floating enable
+for_window [app_id="(?i)(?:discord|slack|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper)"] floating enable
+for_window [app_id="(?i)(?:msedge-_agimnkijcaahngcdmfeangaknmldooml-Default|spotube)"] move to scratchpad
 popup_during_fullscreen smart
 
 #####    waybar    #####
@@ -301,3 +293,5 @@ bar {
 
 #####    swaybg    #####
 output "*" background ~/.config/background/arch-black-4k.png fill
+# output HDMI-A-1 bg ~/.config/background/arch-black-4k.png fill 
+# output HDMI-A-2 bg ~/.config/background/06-Blue_Purple_DM-4K.png stretch
