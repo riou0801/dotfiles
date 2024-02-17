@@ -7,4 +7,4 @@ exec_always autotiling
 exec foot --server
 # exec beeper --enable-features=UseOzonePlatform  --ozone-platform-hint=auto --hidden
 exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
-exec swayidle timeout 1200 swaylock timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' 
+exec swayidle -w timeout 1200 'swaylock -f' timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' 

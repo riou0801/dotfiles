@@ -66,6 +66,8 @@ bindswitch lid:on output $laptop disable
 bindswitch lid:off output $laptop enable
 
 #############         Bindings           ##################
+# wayland ime
+bindsym Mod1+z exec footclient -a=ime fish -c ime
 
 # kill focused window
 bindsym $Mod+Shift+q kill
@@ -87,7 +89,7 @@ bindsym Mod1+space exec cliphist list | fuzzel -d | cliphist decode | wl-copy
 # bindsym Mod1+space        exec clipman pick --tool=CUSTOM --tool-args="fuzzel -d"
 bindsym Mod1+F1           exec $launcher
 bindsym $Mod+f            exec $filemanager
-bindsym $Mod+c            exec fnottctl list
+bindsym $Mod+c            exec makoctl restore
 bindsym Mod1+l            exec swaylock
 
 # Exit menu
@@ -283,7 +285,7 @@ for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 # for_window [class="code"] floating enable
 for_window [app_id="(?i)(?:discord|slack|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper)"] floating enable
-for_window [app_id="(?i)(?:msedge-_agimnkijcaahngcdmfeangaknmldooml-Default|spotube)"] move to scratchpad
+for_window [app_id="ime"] floating enable
 popup_during_fullscreen smart
 
 #####    waybar    #####

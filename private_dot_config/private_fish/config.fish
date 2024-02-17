@@ -18,6 +18,7 @@ if status is-interactive
 	abbr -a tclock tclock --color '#a6adc8'
     abbr -a sude sudo -E helix
     abbr -a vsnvim env NVIM_APPNAME=vsnvim nvim
+    abbr -a nvchad env NVIM_APPNAME=nvchad nvim
 end
 
 zoxide init fish | source

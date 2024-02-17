@@ -55,7 +55,7 @@ SETUVAR fish_pager_color_selected_background:\x1d
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/usr/local/bin\x1e/home/riou/\x2ecargo/bin\x1e/home/riou/\x2elocal/bin/
+SETUVAR fish_user_paths:/home/riou/\x2edotnet/tools\x1e/usr/local/bin\x1e/home/riou/\x2ecargo/bin\x1e/home/riou/\x2elocal/bin/
 SETUVAR --export fzf_configure_bindings:\x2d\x2ddirectory\x3d\x06
 SETUVAR --export fzf_configure_keybindings:\x2d\x2ddirectory\x1e\x06
 SETUVAR --export fzf_fd_opts:\x2d\x2dglob\x1e\x2d\x2dhidden\x1e\x2d\x2dexclude\x3d\x2egit
