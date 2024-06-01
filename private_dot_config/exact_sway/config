@@ -8,10 +8,11 @@ include keyboard
 include pointer
 include touchpad
 
+# pure wayland
+xwayland disable
 
 # nwg-shell sway config
 # Read `man 5 sway` for reference.
-
 
 # border & title
 for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
@@ -20,7 +21,7 @@ default_border pixel 1
 # gaps
 gaps inner 4
 gaps outer 4
-smart_gaps on
+smart_gaps off
 
 # font
 font pango:BIZTER 11
@@ -35,30 +36,6 @@ set $up l
 set $down k
 set $left j
 set $right semicolon
-
-###############     Autostart      ##################
-
-exec --no-startup-id fcitx5 -d
-
-# clipman
-exec wl-paste -t text --watch clipman store --no-persist
-exec wl-paste -p -t text --watch clipman store -P --hist -path="~/.local/share/clipman-primary.json"
-
-
-# clapboard
-# exec wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}"
-# exec wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}"
-
-# cliphist
-exec wl-paste --watch cliphist store 
-exec wl-paste --type text --watch cliphist store
-exec wl-paste --type image --watch cliphist store
-
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && \
-    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
 
 ### Turn off screen on lid closed
 set $laptop eDP-1
@@ -283,9 +260,12 @@ for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|org.twosheds.iwgtk)"
 for_window [app_id="(?i)(?:nwg-shell-config|nwg-panel-config|nwg-look|nwg-displays)"] floating enable
 for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
-# for_window [class="code"] floating enable
-for_window [app_id="(?i)(?:discord|slack|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper)"] floating enable
+for_window [app_id="dev.zed.Zed-Preview"] floating enable
+for_window [app_id="(?i)(?:discord|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper|xdg-desktop-portal-gtk)"] floating enable
 for_window [app_id="ime"] floating enable
+for_window [app_id="wezvim"] floating enable
+assign [app_id="Slack"] → workspace 2
+assign [app_id="vivaldi-stable"] → workspace 1
 popup_during_fullscreen smart
 
 #####    waybar    #####
@@ -295,5 +275,5 @@ bar {
 
 #####    swaybg    #####
 output "*" background ~/.config/background/arch-black-4k.png fill
-# output HDMI-A-1 bg ~/.config/background/arch-black-4k.png fill 
+# output HDMI-A-1 bg ~/.config/background/arch-black-4k.png fill
 # output HDMI-A-2 bg ~/.config/background/06-Blue_Purple_DM-4K.png stretch

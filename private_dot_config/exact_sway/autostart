@@ -1,10 +1,43 @@
+###############     Autostart      ##################
+
+exec --no-startup-id fcitx5 -d
+
+# clipman now disable
+# exec wl-paste -t text --watch clipman store --no-persist
+# exec wl-paste -p -t text --watch clipman store -P --hist -path="~/.local/share/clipman-primary.json"
+
+
+# clapboard
+# exec wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}"
+# exec wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}"
+
+# cliphist
+exec wl-paste --watch cliphist store 
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+
+# this is same "include /etc/sway/config.d/50-systemd-user.conf"
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako
 exec /home/riou/.local/bin/wzmach
 exec_always lystra --playing "󰝚 " --paused "󰏤 " --playbackcolor "#9CABCA" --separator ": " --order "title,artist" --mediaplayer ""  --autotoggle
+
 exec blueman-applet
 exec udiskie -ant --appindicator
 exec_always autotiling
 exec foot --server
 # exec beeper --enable-features=UseOzonePlatform  --ozone-platform-hint=auto --hidden
 exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
-exec swayidle -w timeout 1200 'swaylock -f' timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' 
+
+exec swayidle -w \
+    timeout 300 'loginctl lock-session' \
+    timeout 600 'systemctl suspend' \
+    after-resume 'swaymsg reload'
+
+# memos
+exec docker start memos 

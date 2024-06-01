@@ -17,8 +17,7 @@ if status is-interactive
     abbr -a erd erd -H -I -i -P --hidden --layout inverted --dir-order first  --level 2
 	abbr -a tclock tclock --color '#a6adc8'
     abbr -a sude sudo -E helix
-    abbr -a vsnvim env NVIM_APPNAME=vsnvim nvim
-    abbr -a nvchad env NVIM_APPNAME=nvchad nvim
+    abbr -a zg 'z $(ghq root)/$(ghq list | fzf --height 30 --preview "eza -1 -T --icons --sort name --color always $(ghq root)/{}" --layout reverse --border rounded)'
 end
 
 zoxide init fish | source
