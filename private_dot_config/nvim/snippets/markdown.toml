@@ -1,0 +1,9 @@
+[frontmatter]
+prefix = ['frontmatter', '/fro']
+body = """
+---
+title: $1
+author: $2
+date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE
+---
+"""
