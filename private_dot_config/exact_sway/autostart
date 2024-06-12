@@ -24,8 +24,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako
-exec /home/riou/.local/bin/wzmach
-exec_always lystra --playing "󰝚 " --paused "󰏤 " --playbackcolor "#9CABCA" --separator ": " --order "title,artist" --mediaplayer ""  --autotoggle
+# exec /home/riou/.local/bin/wzmach
 
 exec blueman-applet
 exec udiskie -ant --appindicator
@@ -34,6 +33,9 @@ exec foot --server
 # exec beeper --enable-features=UseOzonePlatform  --ozone-platform-hint=auto --hidden
 exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
 
+# use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
+# waylock, gtklock, wallock or anything else?
+# reffer to 'systemd-swaylock.service'
 exec swayidle -w \
     timeout 300 'loginctl lock-session' \
     timeout 600 'systemctl suspend' \

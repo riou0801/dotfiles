@@ -40,13 +40,13 @@ vim.diagnostic.config({
   signs = {
     enable = true,
     text = {
-      [vim.diagnostic.severity.ERROR] = '✖',
+      [vim.diagnostic.severity.ERROR] = '',
       [vim.diagnostic.severity.HINT] = '󰝥',
-      [vim.diagnostic.severity.INFO] = 'ℹ',
-      [vim.diagnostic.severity.WARN] = '⚠'
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.WARN] = ''
     },
   },
-  virtual_text = true,
+  virtual_text = false,
   update_in_insert = false,
   underline = true,
   severity_sort = true

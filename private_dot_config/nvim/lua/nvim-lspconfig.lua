@@ -16,8 +16,13 @@ lspconfig.marksman.setup({})
 -- Global mappings.
 -- See ":help vim.diagnostic.*" for documentation on any of the below functions
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "diagnostic in float" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "go to prev diagnostics" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "go to next diagnostics" })
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump({ count = 1})
+end, { desc = "go to prev diagnostics" })
+vim.keymap.set("n", "]d",
+  function()
+    vim.diagnostic.jump({ count = -1})
+  end, { desc = "go to next diagnostics" })
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "setloclist" })
 
 -- Use LspAttach autocommand to only map the following keys

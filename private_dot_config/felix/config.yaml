@@ -7,7 +7,7 @@ default: helix
 # key (the command you want to use): [values] (extensions)
 exec:
    imv:
-     [jpg, jpeg, png, gif, svg]
+     [jpg, jpeg, png, gif, svg, webp]
    zathura:
      [pdf]
 

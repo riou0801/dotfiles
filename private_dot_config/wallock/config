@@ -1,0 +1,27 @@
+# Lock Screen Options
+wallpaper_enabled=false
+file_path=~/Pictures/wallpaper/
+file_extensions=jpg,jpeg,png,webp,mp4,mov,webm,avi,wmv,flv,mkv
+# Lock Indicator Options
+lock_indicator_enabled=true
+lock_indicator_monitor=HDMI-A-1
+lock_indicator_visible_on_idle=true
+lock_indicator_clock_enabled=true
+lock_indicator_clock_format=%I:%M %p
+lock_indicator_ring_enabled=true
+lock_indicator_ring_radius=100
+lock_indicator_ring_thickness=10
+lock_indicator_ring_fill_color_input={color1}
+lock_indicator_ring_fill_color_cleared=#E5A445FF
+lock_indicator_ring_fill_color_caps_lock={color1}
+lock_indicator_ring_fill_color_verifying={color9}
+lock_indicator_font=FiraCode Nerd Font	
+
+### Lock Bar Options ###
+# These are options for the bar that is shown on the lock screen.
+lock_bar_enabled=true
+lock_bar_monitor=primary
+lock_bar_visible_on_idle=true
+lock_bar_idle_timeout_ms=5000
+lock_bar_modules=keyboard, network, clock
+lock_bar_module_separator=
