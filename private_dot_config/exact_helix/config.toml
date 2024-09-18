@@ -73,7 +73,7 @@ g = { a = "code_action" } # Maps `ga` to show possible code actions
 "ret" = ["open_below", "normal_mode"] # Maps the enter key to open_below then re-enter normal mode
 
 [keys.insert]
-"C-v" = ":clipboard-paste-after"     # Maps Ctrl-v to paste clipboad
+"C-v" = ":clipboard-paste-after"     # Maps Ctrl-v to paste clipboard
 j = { k = "normal_mode" } # Maps `jk` to exit insert mode
 "esc" = [":sh fcitx5-remote -c", "normal_mode"]
 

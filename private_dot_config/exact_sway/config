@@ -62,7 +62,8 @@ bindsym $Mod+F2           exec $term
 bindsym $Mod+e            exec $editor
 bindsym $Mod+w            exec $browser
 bindsym Control+space     exec fuzzel
-bindsym Mod1+space exec cliphist list | fuzzel -d | cliphist decode | wl-copy
+# bindsym Mod1+space exec cliphist list | fuzzel -d | cliphist decode | wl-copy
+bindsym $Mod+v exec cliphist list | fuzzel -d | cliphist decode | wl-copy
 # bindsym Mod1+space        exec clipman pick --tool=CUSTOM --tool-args="fuzzel -d"
 bindsym Mod1+F1           exec $launcher
 bindsym $Mod+f            exec $filemanager
@@ -226,11 +227,11 @@ for_window [urgent="latest"] focus
 focus_on_window_activation   focus
 
 # container layout
-bindsym $Mod+h split h
-bindsym $Mod+v split v
+bindsym $Mod+Shift+h split h
+bindsym $Mod+Shift+v split v
 bindsym $Mod+Shift+t layout tabbed
 bindsym $Mod+Shift+s layout stacking
-bindsym $Mod+Shift+h layout toggle split
+# bindsym $Mod+Shift+h layout toggle split
 
 default_orientation horizontal
 
@@ -261,8 +262,8 @@ for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|org.twosheds.iwgtk)"
 for_window [app_id="(?i)(?:nwg-shell-config|nwg-panel-config|nwg-look|nwg-displays)"] floating enable
 for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
-for_window [app_id="dev.zed.Zed-Preview"] floating enable
-for_window [app_id="(?i)(?:discord|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper|xdg-desktop-portal-gtk)"] floating enable
+for_window [app_id="dev.zed.Zed"] floating enable
+for_window [app_id="(?i)(?:discord|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper|xdg-desktop-portal-gtk|org.fcitx.fcitx5-config-qt)"] floating enable
 for_window [app_id="ime"] floating enable
 for_window [app_id="wezvim"] floating enable
 assign [app_id="Slack"] → workspace 2

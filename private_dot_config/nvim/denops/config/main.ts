@@ -41,6 +41,7 @@ export async function main(denops: Denops): Promise<void> {
     url: "catppuccin/nvim",
     afterFile: "~/.config/nvim/lua/nvim-catppuccin.lua",
   });
+  await dvpm.add({ url: "nvim-tree/nvim-web-devicons" });
   await dvpm.add({
     url: "goolord/alpha-nvim",
     dependencies: [{ url: "nvim-tree/nvim-web-devicons" }],
@@ -62,7 +63,7 @@ export async function main(denops: Denops): Promise<void> {
   // from noice to cmdline.vim
   await dvpm.add({
     url: "Shougo/cmdline.vim",
-    enabled: true,
+    enabled: false,
     after: async ({ denops }) => {
       await denops.call("cmdline#set_option", {
         blend: "0",
@@ -75,6 +76,10 @@ export async function main(denops: Denops): Promise<void> {
       //   "<Cmd>call cmdline#input()<CR>",
       //   { mode: "n" })
     },
+  });
+  await dvpm.add({ 
+    url: "lambdalisue/vim-fall",
+    enabled: true
   });
   await dvpm.add({
     url: "rcarriga/nvim-notify",
@@ -149,6 +154,8 @@ export async function main(denops: Denops): Promise<void> {
       await vars.globals.set(denops, "chronicle_debug", false);
       await vars.globals.set(denops, "chronicle_echo", false);
       await vars.globals.set(denops, "chronicle_notify", false);
+      await vars.globals.set(denops, "chronicle_read_path", "/home/riou/.cache/chronicle/read");
+      await vars.globals.set(denops, "chronicle_write_path", "/home/riou/.cache/chronicle/write");
     },
     after: async ({ denops }) => {
       await mapping.map(
@@ -181,10 +188,63 @@ export async function main(denops: Denops): Promise<void> {
   });
   await dvpm.add({
     url: "m4xshen/autoclose.nvim",
+    enabled: false,
     after: async ({ denops }) => {
       await denops.call("luaeval", 'require("autoclose").setup()');
     },
   });
+  await dvpm.add({
+    url: "higashi000/dps-kakkonan",
+    enabled: true,
+    afterFile: "~/.config/nvim/lua/kakkonan.lua",
+  });
+  await dvpm.add({
+    url: "hrsh7th/nvim-insx",
+    enabled: false,
+    after: async ({ denops }) => {
+      await denops.call("luaeval", 'require("insx.preset.standard").setup()');
+    },
+  });
+  await dvpm.add({
+    url: "uga-rosa/ccc.nvim",
+    afterFile: "~/.config/nvim/lua/nvim-ccc.lua",
+  });
+  await dvpm.add({
+    url: "uga-rosa/denippet.vim",
+    dependencies: [{ url: "vim-denops/denops.vim" }],
+    // afterFile: "~/.config/nvim/lua/snippet.lua", 
+    after: async ({ denops }) => {
+      await mapping.map(
+        denops,
+        "<C-l>",
+        "<Plug>(denippet-expand)",
+        { mode: ["i"] },
+      ),
+      await mapping.map(
+        denops,
+        "<expr><Tab>",
+        "denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'",
+        { mode: ["i", "s"] },
+      ),
+      await mapping.map(
+        denops,
+        "<expr><S-Tab>",
+        "denippet#jumpable(-1) ? '<Plug>(denippet-jump-prev)' : '<S-Tab>'",
+        { mode: ["i", "s"] },
+      );
+    },
+  }),
+  await dvpm.add({
+    url: "ryoppippi/denippet-autoimport-vscode",
+    dependencies: [{ url:"uga-rosa/denippet.vim" }]
+  }),
+  await dvpm.add({ 
+    url: "rachartier/tiny-inline-diagnostic.nvim",
+    after: async ({ denops }) => {
+      await denops.call("luaeval", 'require("tiny-inline-diagnostic").setup()');
+    },
+  });
+
   // await dvpm.add({ url: "nil70n/floating-help" });
 
   // LSP etc
@@ -252,37 +312,7 @@ export async function main(denops: Denops): Promise<void> {
       { url: "Shougo/ddc-filter-matcher_length" },
       { url: "Shougo/ddc-filter-converter_truncate_abbr" },
       { url: "matsui54/ddc-postfilter_score" },
-      {
-        url: "uga-rosa/denippet.vim",
-        after: async ({ denops }) => {
-          await denops.call(
-            "denippet#load",
-            "/home/riou/.config/nvim/snippets/markdown.toml",
-          ),
-          await denops.call(
-            "denippet#load",
-            "/home/riou/.config/nvim/snippets/typescript.toml",
-          ),
-          await mapping.map(
-            denops,
-            "<C-l>",
-            "<Plug>(denippet-expand)",
-            { mode: ["i"] },
-          ),
-          await mapping.map(
-            denops,
-            "<expr><Tab>",
-            "denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'",
-            { mode: ["i", "s"] },
-          ),
-          await mapping.map(
-            denops,
-            "<expr><S-Tab>",
-            "denippet#jumpable(-1) ? '<Plug>(denippet-jump-prev)' : '<S-Tab>'",
-            { mode: ["i", "s"] },
-          );
-        },
-      },
+      
       {
         url: "uga-rosa/ddc-previewer-floating",
         enabled: false,
@@ -335,13 +365,13 @@ export async function main(denops: Denops): Promise<void> {
           "=": ["input"],
         },
         sourceOptions: {
-          "-": {
-            minAutoCompleteLength: 1,
+          _: {
+            minAutoCompleteLength: 2,
             ignoreCase: true,
             isVolatile: true,
+            maxItems: 5,
             matchers: ["matcher_fuzzy"],
-            maxItems: 10,
-            sorters: ["sorter_fuzzy"],
+            sorters: ["sorter_fuzzy", "sorter_rank"],
             converters: ["converter_fuzzy", "converter_truncate_abbr"],
           },
           input: {
@@ -352,12 +382,8 @@ export async function main(denops: Denops): Promise<void> {
           cmdline: {
             mark: "cmd",
             forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
-            converters: ["converter_fuzzy"],
           },
-          denippet: {
-            mark: "denippet",
-            keywordPattern: "k*",
-          },
+          denippet: { mark: "denippet" },
           "cmdline-history": { mark: "c-his" },
           "shell-native": { mark: "fish" },
           around: { mark: "around" },
@@ -370,14 +396,16 @@ export async function main(denops: Denops): Promise<void> {
             forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
             dup: "force",
             sorters: ["sorter_lsp-kind"],
-            converters: ["converter_fuzzy"],
           },
         },
         sourceParams: {
           line: { maxSize: 250 },
           "shell-native": { shell: "fish" },
           lsp: {
-            snippetEngine: "denops#callback#register({ body -> denippet#annonymous(body) })",
+            // snippetEngine: "denops#callback#register({ body -> denippet#anonymous(body) })",
+            snippetEngine: async (body: string) => {
+              await denops.call("denippet#anonymous", body);
+            },
             enableResolveItem: true,
             enableAdditionalTextEdit: true,
           },
@@ -392,24 +420,24 @@ export async function main(denops: Denops): Promise<void> {
           },
         },
       }),
-      await mapping.map(
-        denops,
-        "<expr><Down>",
-        "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Down>'",
-        { mode: ["i", "c"] },
-      ),
+      // await mapping.map(
+      //   denops,
+      //   "<expr><Down>",
+      //   "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Down>'",
+      //   { mode: ["i", "c"] },
+      // ),
       await mapping.map(
         denops,
         "<expr><Tab>",
         "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Tab>'",
         { mode: ["i", "c"] },
       ),
-      await mapping.map(
-        denops,
-        "<expr><Up>",
-        "pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<Up>'",
-        { mode: ["i", "c"] },
-      ),
+      // await mapping.map(
+      //   denops,
+      //   "<expr><Up>",
+      //   "pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<Up>'",
+      //   { mode: ["i", "c"] },
+      // ),
       await mapping.map(
         denops,
         "<expr><S-Tab>",
@@ -464,13 +492,12 @@ export async function main(denops: Denops): Promise<void> {
             startFilter: true,
             winWidth: "&columns / 2 - 2",
             previewFloating: true,
-            previewSplit: "vertical",
             previewFloatingBorder: "rounded",
             previewFloatingTitle: "Preview",
-            previewHight: "&lines - 8",
+            previewHeight: "&lines - 8",
             previewWidth: "&columns / 2 - 2",
-            previewRow: 1,
-            previewCol: "&columns / 2 + 1",
+            // previewRow: 1,
+            // previewCol: "&columns / 2 + 1",
           },
         },
         sources: [{ name: "file" }],

@@ -1,0 +1,144 @@
+vim9script
+
+# plasma.vim {{{
+def GenExitCb(path: string, repo: string): func(job, number): void
+  def ExitCb(_: job, status: number): void
+    echohl WarningMsg
+
+    if status ==# 0
+      echowindow $"{repo} has been cloned successfully"
+      return
+    endif
+
+    echowindow $"failed to clone {repo}"
+    echohl None
+  enddef
+
+  return ExitCb
+enddef
+
+def Callback(_: channel, msg: string): void
+  echohl WarningMsg
+  echowindow msg
+  echohl None
+enddef
+
+def InstallPlasma(repo: string, base: string): void
+  const path: string = $"{base}/{repo}"
+  const url: string = $"https://{repo}.git"
+
+  if !path->isdirectory()
+    const cmd: list<string> = [
+      "git",
+      "clone",
+      "--depth",
+      "1",
+      "--no-single-branch",
+      url,
+      path,
+    ]
+    const opts: dict<any> = {
+      out_cb: "Callback",
+      err_cb: "Callback",
+      exit_cb: GenExitCb(path, url),
+    }
+    cmd->job_start(opts)
+  endif
+
+  execute $"set runtimepath^={path}"
+enddef
+
+const plasmaDir: string = $XDG_DATA_HOME->empty()
+  ? $"{$HOME}/.local/share/vim/plasma"
+  : $"{$XDG_DATA_HOME}/vim/plasma"
+
+InstallPlasma("codeberg.org/9yokuro/plasma.vim", plasmaDir)
+InstallPlasma("codeberg.org/9yokuro/plasma-installer.vim", plasmaDir)
+InstallPlasma("codeberg.org/9yokuro/plasma-git.vim", plasmaDir)
+
+import autoload "plasma.vim"
+import autoload "plasma/git.vim"
+import autoload "plasma/installer.vim"
+const config: list<plasma.Config> = [
+  {
+    repo: "codeberg.org/9yokuro/plasma.vim",
+  },
+  {
+    repo: "codeberg.org/9yokuro/plasma-installer.vim",
+    merged: true,
+  },
+  {
+    repo: "codeberg.org/9yokuro/plasma-git.vim",
+    merged: true,
+  },
+  {
+    repo: "github.com/vim-jp/vimdoc-ja",
+    merged: true,
+  },
+  {
+    repo: "github.com/girishji/vimcomplete",
+  },
+  {
+    repo: "github.com/girishji/autosuggest.vim",
+  },
+  {
+    repo: "github.com/yegappan/lsp",
+  },
+  {
+    repo: "github.com/Eliot00/auto-pairs",
+  },
+  {
+    repo: "github.com/catppuccin/vim",
+  },
+]
+const plugins: plasma.Plugins = plasma.ParseConfig(config, plasmaDir)
+execute plasma.Load(plugins, plasmaDir)
+
+augroup vimrcAugroup
+  autocmd!
+  autocmd vimrcAugroup VimEnter * {
+    command! InstallPlugin installer.Install(git.Install({ shallowClone: true }), plugins)
+    command! UpdatePlugin installer.Update(git.Update(), plugins)
+    command! MergeRuntimepaths plasma.MergeRtps(plugins, plasmaDir)
+  augroup END
+}
+
+# }}}
+
+# vimcomplete
+var options = {
+  completor: { noNewlineInCompletion: true, triggerWordLen: 2 }
+} 
+g:vimcomplete_tab_enable = 1
+autocmd VimEnter * g:VimCompleteOptionsSet(options)
+
+# lsp
+var lspOpts = { autoHighlightDiags: true }
+autocmd User LspSetup g:LspOptionsSet(lspOpts)
+
+var lspServers = [
+  {
+   name: "denols",
+   filetype: ["javascript", "typescript"],
+   path: "/usr/bin/deno",
+   args: ["lsp"],
+  },
+  {
+   name: "vimls",
+   filetype: "vim",
+   path: "/usr/bin/vim-language-server",
+   args: ["--stdio"],
+  }
+]
+autocmd User LspSetup g:LspAddServer(lspServers)
+
+# settings
+set number
+set encoding=utf-8
+set termguicolors
+scriptencoding utf-8
+filetype plugin indent on
+syntax on
+colorscheme catppuccin_mocha
+hi Normal guibg=NONE
+g:ambiwidth = "double"

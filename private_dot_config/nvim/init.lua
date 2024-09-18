@@ -7,6 +7,7 @@ if not vim.loop.fs_stat(denops) then
 	vim.fn.system({ "git", "clone", "https://github.com/vim-denops/denops.vim", denops })
 end
 vim.opt.runtimepath:prepend(denops)
+vim.opt.runtimepath:prepend(vim.fn.expand("~/.config/nvim/snippets"))
 
 -- set global options
 vim.api.nvim_set_var("loaded_netrw", 1)
@@ -36,21 +37,21 @@ vim.opt.guicursor = {
 vim.opt.winblend = 0
 vim.opt.pumblend = 15
 
-vim.diagnostic.config({
-  signs = {
-    enable = true,
-    text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.HINT] = '󰝥',
-      [vim.diagnostic.severity.INFO] = '',
-      [vim.diagnostic.severity.WARN] = ''
-    },
-  },
-  virtual_text = false,
-  update_in_insert = false,
-  underline = true,
-  severity_sort = true
-})
+-- vim.diagnostic.config({
+--   signs = {
+--     enable = true,
+--     text = {
+--       [vim.diagnostic.severity.ERROR] = '',
+--       [vim.diagnostic.severity.HINT] = '󰝥',
+--       [vim.diagnostic.severity.INFO] = '',
+--       [vim.diagnostic.severity.WARN] = ''
+--     },
+--   },
+--   virtual_text = false,
+--   update_in_insert = false,
+--   underline = true,
+--   severity_sort = true
+-- })
 
 -- local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
 -- for type, icon in pairs(signs) do
@@ -61,6 +62,11 @@ vim.diagnostic.config({
 vim.g.markdown_fenced_languages = {
 	"ts=typescript",
 }
+
+vim.api.nvim_create_autocmd({"InsertLeave", "CmdlineLeave"}, {
+  pattern = "*",
+  command = "call system('fcitx5-remote -c') | echo 'IME off'"
+})
 
 require("ddu-keymap")
 -- require("help-float")
