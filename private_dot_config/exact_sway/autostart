@@ -16,17 +16,26 @@ exec wl-paste --watch cliphist store
 exec wl-paste --type text --watch cliphist store
 exec wl-paste --type image --watch cliphist store
 
+
 # this is same "include /etc/sway/config.d/50-systemd-user.conf"
 exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec systemctl --user import-environment DISPLAY \
+                                         WAYLAND_DISPLAY \
+                                         SWAYSOCK \
+                                         XDG_CURRENT_DESKTOP
+                                        
 exec hash dbus-update-activation-environment 2>/dev/null && \
-    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+     dbus-update-activation-environment --systemd DISPLAY \
+                                                  WAYLAND_DISPLAY \
+                                                  SWAYSOCK \
+                                                  XDG_CURRENT_DESKTOP=sway
 
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako
 # exec /home/riou/.local/bin/wzmach
 
 exec blueman-applet
+exec systemctl --user start iwgtk.service
 exec udiskie -ant --appindicator
 exec_always autotiling
 exec foot --server
@@ -35,7 +44,7 @@ exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
 
 # use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
 # waylock, gtklock, wallock or anything else?
-# reffer to 'systemd-swaylock.service'
+# refer to 'systemd-swaylock.service'
 exec swayidle -w \
     timeout 300 'loginctl lock-session' \
     timeout 600 'systemctl suspend' \

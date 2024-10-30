@@ -136,9 +136,13 @@ autocmd User LspSetup g:LspAddServer(lspServers)
 set number
 set encoding=utf-8
 set termguicolors
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set clipboard^=unnamedplus
 scriptencoding utf-8
 filetype plugin indent on
-syntax on
+syntax enable
 colorscheme catppuccin_mocha
 hi Normal guibg=NONE
 g:ambiwidth = "double"

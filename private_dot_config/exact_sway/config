@@ -53,10 +53,10 @@ bindsym Mod1+F4 kill
 
 # core applications
 bindsym $Mod+Return       exec $term
-bindsym Mod1+Shift+Return exec $term
-bindsym Control+Shift+t   exec $term
-bindsym $Mod+t            exec $term
-bindsym $Mod+F2           exec $term
+# bindsym Mod1+Shift+Return exec $term
+# bindsym Control+Shift+t   exec $term
+# bindsym $Mod+t            exec $term
+# bindsym $Mod+F2           exec $term
 # bindsym $Mod+s            exec nwg-shell-config
 # bindsym $Mod+d            exec $dock
 bindsym $Mod+e            exec $editor
@@ -260,14 +260,18 @@ bindsym Mod1+KP_Subtract         gaps outer current minus 5
 for_window [app_id="(?i)(?:blueman-manager|blueberry|azote|gnome-disks)"] floating enable
 for_window [app_id="(?i)(?:pavucontrol|nm-connection-editor|org.twosheds.iwgtk)"] floating enable
 for_window [app_id="(?i)(?:nwg-shell-config|nwg-panel-config|nwg-look|nwg-displays)"] floating enable
-for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] border none
+for_window [app_id="(?i)(?:firefox|chromium|microsoft-edge)"] border none
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [app_id="dev.zed.Zed"] floating enable
 for_window [app_id="(?i)(?:discord|code|code-url-handler|org.gnome.Nautilus|nemo|Beeper|xdg-desktop-portal-gtk|org.fcitx.fcitx5-config-qt)"] floating enable
 for_window [app_id="ime"] floating enable
 for_window [app_id="wezvim"] floating enable
+for_window [app_id="vivaldi-pjibgclleladliembfgfagdaldikeohf-Default"] floating enable, resize set 1024 720, move scratchpad
 assign [app_id="Slack"] → workspace 2
 assign [app_id="vivaldi-stable"] → workspace 1
+# assign [app_id="(?i)(?:firefox|chromium|microsoft-edge-stable)"] → workspace 3
+# for_window [app_id="firefox"] resize set width 1368, move left
+# for_window [app_id="chromium"] resize set width 512, move right
 popup_during_fullscreen smart
 
 #####    waybar    #####

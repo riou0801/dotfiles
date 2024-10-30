@@ -1,28 +1,28 @@
-import * as fn from "https://deno.land/x/denops_std@v6.5.0/function/mod.ts";
-import * as mapping from "https://deno.land/x/denops_std@v6.5.0/mapping/mod.ts";
-import { Denops } from "https://deno.land/x/denops_std@v6.5.0/mod.ts";
-import { ensure, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
-import { execute } from "https://deno.land/x/denops_std@v6.5.0/helper/mod.ts";
-// import { options } from "https://deno.land/x/denops_std@v6.5.0/variable/mod.ts";
-import { Dvpm } from "https://deno.land/x/dvpm@3.12.0/mod.ts";
-import * as vars from "https://deno.land/x/denops_std@v6.5.0/variable/mod.ts";
-import * as autocmd from "https://deno.land/x/denops_std@v6.5.0/autocmd/mod.ts";
-import * as nFunc from "https://deno.land/x/denops_std@v6.5.0/function/nvim/mod.ts";
+import * as fn from "jsr:@denops/std/function";
+import * as mapping from "jsr:@denops/std/mapping";
+import type { Denops } from "jsr:@denops/std";
+import { ensure, is } from "jsr:@core/unknownutil";
+import { execute } from "jsr:@denops/std/helper";
+// import { options } from "jsr:@denops/std/variable/options";
+import { Dvpm } from "jsr:@yukimemi/dvpm";
+import * as vars from "jsr:@denops/std/variable";
+import * as autocmd from "jsr:@denops/std/autocmd";
+import * as nFunc from "jsr:@denops/std/function/nvim/";
 
 export async function main(denops: Denops): Promise<void> {
   // プラグインをインストールするベースとなるパスです。
   const base_path = (await fn.has(denops, "nvim")) ? "~/.cache/nvim/dvpm" : "~/.cache/vim/dvpm";
   const base = ensure(await fn.expand(denops, base_path), is.String);
-  // const cache_path = (await fn.has(denops, "nvim"))
-  //  ? "~/.config/nvim/plugin/dvpm_plugin_cache.vim"
-  //  : "~/.config/vim/plugin/dvpm_plugin_cache.vim";
+  const cache_path = (await fn.has(denops, "nvim"))
+    ? "~/.config/nvim/cache/dvpm_plugin_cache.vim"
+    : "~/.config/vim/cache/dvpm_plugin_cache.vim";
   // This cache path must be pre-appended to the runtimepath.
   // Add it in vimrc or init.lua by yourself, or specify the path originally added to
   // runtimepath of Vim / Neovim.
-  //const cache = ensureString(await fn.expand(denops, cache_path));
+  const cache = ensure(await fn.expand(denops, cache_path), is.String);
   //
   // ベースパスを引数に、 Dvpm.begin を実行して、 `dvpm` インスタンスを取得します。
-  const dvpm = await Dvpm.begin(denops, { base });
+  const dvpm = await Dvpm.begin(denops, { base, cache, debug: true });
 
   // 以降は `dvpm.add` を用いて必要なプラグインを追加していきます。
   await dvpm.add({
@@ -39,12 +39,15 @@ export async function main(denops: Denops): Promise<void> {
   // ui & utils
   await dvpm.add({
     url: "catppuccin/nvim",
-    afterFile: "~/.config/nvim/lua/nvim-catppuccin.lua",
+    cache: {
+      enabled: true,
+      afterFile: "~/.config/nvim/lua/nvim-catppuccin.lua",
+    },
   });
   await dvpm.add({ url: "nvim-tree/nvim-web-devicons" });
   await dvpm.add({
     url: "goolord/alpha-nvim",
-    dependencies: [{ url: "nvim-tree/nvim-web-devicons" }],
+    dependencies: ["nvim-tree/nvim-web-devicons"],
     enabled: false,
     after: async ({ denops }) => {
       await denops.call(
@@ -77,9 +80,9 @@ export async function main(denops: Denops): Promise<void> {
       //   { mode: "n" })
     },
   });
-  await dvpm.add({ 
+  await dvpm.add({
     url: "lambdalisue/vim-fall",
-    enabled: true
+    enabled: true,
   });
   await dvpm.add({
     url: "rcarriga/nvim-notify",
@@ -148,29 +151,37 @@ export async function main(denops: Denops): Promise<void> {
       );
     },
   });
-  await dvpm.add({ 
+  await dvpm.add({
     url: "yukimemi/chronicle.vim",
     before: async ({ denops }) => {
       await vars.globals.set(denops, "chronicle_debug", false);
       await vars.globals.set(denops, "chronicle_echo", false);
       await vars.globals.set(denops, "chronicle_notify", false);
-      await vars.globals.set(denops, "chronicle_read_path", "/home/riou/.cache/chronicle/read");
-      await vars.globals.set(denops, "chronicle_write_path", "/home/riou/.cache/chronicle/write");
+      await vars.globals.set(
+        denops,
+        "chronicle_read_path",
+        "/home/riou/.cache/chronicle/read",
+      );
+      await vars.globals.set(
+        denops,
+        "chronicle_write_path",
+        "/home/riou/.cache/chronicle/write",
+      );
     },
     after: async ({ denops }) => {
       await mapping.map(
         denops,
-        "mr",
+        "<Space>mr",
         "<Cmd>OpenChronicleRead<CR>",
-        { mode: [ "n" ] },
-      ),
+        { mode: ["n"] },
+      );
       await mapping.map(
         denops,
-        "mw",
+        "<Space>mw",
         "<Cmd>OpenChronicleWrite<CR>",
-        { mode: [ "n" ]},
-      )
-    }
+        { mode: ["n"] },
+      );
+    },
   });
   await dvpm.add({ url: "rafamadriz/friendly-snippets" });
   await dvpm.add({
@@ -211,21 +222,21 @@ export async function main(denops: Denops): Promise<void> {
   });
   await dvpm.add({
     url: "uga-rosa/denippet.vim",
-    dependencies: [{ url: "vim-denops/denops.vim" }],
-    // afterFile: "~/.config/nvim/lua/snippet.lua", 
+    dependencies: ["vim-denops/denops.vim"],
+    // afterFile: "~/.config/nvim/lua/snippet.lua",
     after: async ({ denops }) => {
       await mapping.map(
         denops,
         "<C-l>",
         "<Plug>(denippet-expand)",
         { mode: ["i"] },
-      ),
+      );
       await mapping.map(
         denops,
         "<expr><Tab>",
         "denippet#jumpable() ? '<Plug>(denippet-jump-next)' : '<Tab>'",
         { mode: ["i", "s"] },
-      ),
+      );
       await mapping.map(
         denops,
         "<expr><S-Tab>",
@@ -233,117 +244,188 @@ export async function main(denops: Denops): Promise<void> {
         { mode: ["i", "s"] },
       );
     },
-  }),
+  });
   await dvpm.add({
     url: "ryoppippi/denippet-autoimport-vscode",
-    dependencies: [{ url:"uga-rosa/denippet.vim" }]
-  }),
-  await dvpm.add({ 
-    url: "rachartier/tiny-inline-diagnostic.nvim",
-    after: async ({ denops }) => {
-      await denops.call("luaeval", 'require("tiny-inline-diagnostic").setup()');
-    },
+    enabled: true,
+    dependencies: ["uga-rosa/denippet.vim"],
   });
-
   // await dvpm.add({ url: "nil70n/floating-help" });
 
   // LSP etc
+  // await dvpm.add({
+  //   url: "folke/neodev.nvim",
+  //   dependencies: [{ url: "neovim/nvim-lspconfig" }],
+  //   enabled: false,
+  //   after: async ({ denops }) => {
+  //     await denops.call("luaeval", 'require("neodev").setup()');
+  //   },
+  // });
   await dvpm.add({
-    url: "folke/neodev.nvim",
-    dependencies: [{ url: "neovim/nvim-lspconfig" }],
+    url: "neovim/nvim-lspconfig",
+    cache: {
+      enabled: true,
+      afterFile: "~/.config/nvim/lua/nvim-lspconfig.lua",
+    },
+  });
+  await dvpm.add({
+    url: "folke/lazydev.nvim",
+    dependencies: ["neovim/nvim-lspconfig"],
+    enabled: true,
     after: async ({ denops }) => {
-      await denops.call("luaeval", 'require("neodev").setup()');
+      await denops.call("luaeval", 'require("lazydev").setup()');
     },
   });
   await dvpm.add({
     url: "ionide/ionide-vim",
-    dependencies: [{ url: "neovim/nvim-lspconfig" }],
+    dependencies: ["neovim/nvim-lspconfig"],
   });
   await dvpm.add({
     url: "sigmaSd/deno-nvim",
-    dependencies: [{ url: "neovim/nvim-lspconfig" }],
+    dependencies: ["neovim/nvim-lspconfig"],
+    enabled: false,
     after: async ({ denops }) => {
       await denops.call("luaeval", 'require("deno-nvim").setup()');
     },
   });
   await dvpm.add({
-    url: "neovim/nvim-lspconfig",
-    afterFile: "~/.config/nvim/lua/nvim-lspconfig.lua",
+    url: "rachartier/tiny-inline-diagnostic.nvim",
+    dependencies: ["neovim/nvim-lspconfig"],
+    cache: {
+      enabled: true,
+      after: "lua require('tiny-inline-diagnostic').setup()",
+    },
   });
+
   // denops-ollama
-  await dvpm.add({ url: "kyoh86/denops-ollama.vim" });
+  // await dvpm.add({
+  // url: "kyoh86/denops-ollama.vim",
+  // after: async({ denops }) => {
+  //   await denops.call("ollama#custom#patch_func_args",
+  // "start_chat": {
+  //   model: "codellama",
+  //   opener: "new",
+  // },
+  // "open_log": {
+  //   opener: "tabnew",
+  // },
+  // "complete", {
+  //   model: "codellama",
+  //   callback:
+  //     const msg = denops.('echomsg' .. msg)},
+  // },
+  // );
+  // },
+  // });
 
   // ddc settings
   await dvpm.add({
+    url: "Shougo/pum.vim",
+    after: async ({ denops }) => {
+      await denops.call("pum#set_option", {
+        border: "none",
+        max_height: 40,
+        max_width: 56,
+        preview: true,
+        preview_border: "none",
+        preview_width: 56,
+        scrollbar_char: "",
+        offset_cmdcol: ".",
+      });
+    },
+  });
+  await dvpm.add({
+    url: "matsui54/denops-signature_help",
+    after: async ({ denops }) => {
+      await vars.globals.set(denops, "signature_help_config", {
+        contentsStyle: "full",
+        viewStyle: "floating",
+      });
+      await denops.call("signature_help#enable");
+    },
+  });
+  await dvpm.add({
+    url: "uga-rosa/ddc-source-lsp-setup",
+    dependencies: ["neovim/nvim-lspconfig"],
+    after: async ({ denops }) => {
+      await execute(denops, `lua require("ddc_source_lsp_setup").setup()`);
+    },
+  });
+
+  await dvpm.add({ url: "Shougo/ddc-ui-native" });
+  await dvpm.add({ url: "Shougo/ddc-ui-pum" });
+  await dvpm.add({ url: "LumaKernel/ddc-source-file" });
+  await dvpm.add({ url: "Shougo/ddc-source-line" });
+  await dvpm.add({ url: "Shougo/ddc-source-around" });
+  await dvpm.add({ url: "Shougo/ddc-source-input" });
+  await dvpm.add({ url: "Shougo/ddc-source-lsp" });
+  await dvpm.add({ url: "Shougo/ddc-source-cmdline" });
+  await dvpm.add({ url: "Shougo/ddc-source-cmdline-history" });
+  await dvpm.add({ url: "Shougo/ddc-source-vim" });
+  await dvpm.add({ url: "Shougo/ddc-source-shell-native" });
+  await dvpm.add({ url: "uga-rosa/ddc-source-nvim-lua" });
+  // { url: "kyoh86/ddc-source-ollama" },
+  await dvpm.add({ url: "tani/ddc-fuzzy" });
+  await dvpm.add({ url: "Shougo/ddc-filter-matcher_head" });
+  await dvpm.add({ url: "Shougo/ddc-filter-sorter_rank" });
+  await dvpm.add({ url: "Shougo/ddc-filter-matcher_length" });
+  await dvpm.add({ url: "Shougo/ddc-filter-converter_truncate_abbr" });
+  await dvpm.add({ url: "matsui54/ddc-postfilter_score" });
+  await dvpm.add({
     url: "Shougo/ddc.vim",
     dependencies: [
-      // ui
-      { url: "Shougo/ddc-ui-native" },
-      { url: "Shougo/ddc-ui-pum" },
-      {
-        url: "Shougo/pum.vim",
-        after: async ({ denops }) => {
-          await denops.call("pum#set_option", {
-            border: "none",
-            max_height: 40,
-            max_width: 56,
-            preview: true,
-            preview_border: "none",
-            preview_width: 56, 
-            scrollbar_char: "",
-            offset_cmdcol: ".",
-          });
-        },
-      },
-      // source
-      { url: "LumaKernel/ddc-source-file" },
-      { url: "Shougo/ddc-source-line" },
-      { url: "Shougo/ddc-source-around" },
-      { url: "Shougo/ddc-source-input" },
-      { url: "Shougo/ddc-source-lsp" },
-      { url: "Shougo/ddc-source-cmdline" },
-      { url: "Shougo/ddc-source-cmdline-history" },
-      { url: "Shougo/ddc-source-shell-native" },
-      { url: "uga-rosa/ddc-source-nvim-lua" },
-      // filter sorter and matcher
-      { url: "tani/ddc-fuzzy" },
-      { url: "Shougo/ddc-filter-matcher_head" },
-      { url: "Shougo/ddc-filter-sorter_rank" },
-      { url: "Shougo/ddc-filter-matcher_length" },
-      { url: "Shougo/ddc-filter-converter_truncate_abbr" },
-      { url: "matsui54/ddc-postfilter_score" },
-      
-      {
-        url: "uga-rosa/ddc-previewer-floating",
-        enabled: false,
-        after: async ({ denops }) => {
-          await execute(
-            denops,
-            `lua << EOF
-              require('ddc_previewer_floating').setup({
-                ui = "pum",
-                max_height = 40,
-                max_width = 56,
-                border = "rounded",
-                zindex = 950,
-                window_options = {
-                  wrap = false
-                },
-              })
-            EOF
-            `,
-          );
-        },
-      },
-      {
-        url: "uga-rosa/ddc-source-lsp-setup",
-        dependencies: [{ url: "neovim/nvim-lspconfig" }],
-        after: async ({ denops }) => {
-          await execute(denops, `lua require("ddc_source_lsp_setup").setup()`);
-        },
-      },
+      "Shougo/ddc-ui-native",
+      "Shougo/ddc-ui-pum",
+      "LumaKernel/ddc-source-file",
+      "Shougo/ddc-source-line",
+      "Shougo/ddc-source-around",
+      "Shougo/ddc-source-input",
+      "Shougo/ddc-source-lsp",
+      "Shougo/ddc-source-cmdline",
+      "Shougo/ddc-source-cmdline-history",
+      "Shougo/ddc-source-vim",
+      "Shougo/ddc-source-shell-native",
+      "uga-rosa/ddc-source-nvim-lua",
+      "uga-rosa/ddc-source-lsp-setup",
+      "tani/ddc-fuzzy",
+      "Shougo/ddc-filter-matcher_head",
+      "Shougo/ddc-filter-sorter_rank",
+      "Shougo/ddc-filter-matcher_length",
+      "Shougo/ddc-filter-converter_truncate_abbr",
+      "matsui54/ddc-postfilter_score",
+      "matsui54/denops-signature_help",
+      // {
+      //   url: "uga-rosa/ddc-previewer-floating",
+      //   enabled: false,
+      //   after: async ({ denops }) => {
+      //     await execute(
+      //       denops,
+      //       `lua << EOF
+      //         require('ddc_previewer_floating').setup({
+      //           ui = "pum",
+      //           max_height = 40,
+      //           max_width = 56,
+      //           border = "rounded",
+      //           zindex = 950,
+      //           window_options = {
+      //             wrap = false
+      //           },
+      //         })
+      //       EOF
+      //       `,
+      //     );
+      //   },
+      // },
     ],
     after: async ({ denops }) => {
+      const defaultSources = ["lsp", "denippet", "around"];
+      await denops.call("ddc#custom#patch_filetype", "lua", {
+        sources: [...defaultSources, "nvim-lua"],
+      });
+      await denops.call("ddc#custom#patch_filetype", "vim", {
+        sources: [...defaultSources, "vim"],
+        specialBufferCompletion: true,
+      });
       await denops.call("ddc#custom#patch_global", {
         ui: "pum",
         autoCompleteEvents: [
@@ -354,9 +436,15 @@ export async function main(denops: Denops): Promise<void> {
           "CmdlineChanged",
           "CmdlineEnter",
         ],
-        sources: ["lsp", "denippet", "nvim-lua", "around"],
+        sources: defaultSources,
         cmdlineSources: {
-          ":": ["cmdline", "cmdline-history", "shell-native", "file", "around"],
+          ":": [
+            "cmdline",
+            "cmdline-history",
+            "shell-native",
+            "file",
+            "around",
+          ],
           "@": ["input", "cmdline-history", "file", "around"],
           ">": ["input", "cmdline-history", "file", "around"],
           "/": ["around"],
@@ -387,6 +475,10 @@ export async function main(denops: Denops): Promise<void> {
           "cmdline-history": { mark: "c-his" },
           "shell-native": { mark: "fish" },
           around: { mark: "around" },
+          vim: {
+            mark: "vim",
+            isVolatile: true,
+          },
           "nvim-lua": {
             mark: "lua",
             forceCompletionPattern: "\\.\\w*",
@@ -397,15 +489,20 @@ export async function main(denops: Denops): Promise<void> {
             dup: "force",
             sorters: ["sorter_lsp-kind"],
           },
+          ollama: {
+            matchers: [],
+            mark: "ollama",
+            minAutoCompleteLength: 0,
+          },
         },
         sourceParams: {
           line: { maxSize: 250 },
           "shell-native": { shell: "fish" },
           lsp: {
             // snippetEngine: "denops#callback#register({ body -> denippet#anonymous(body) })",
-            snippetEngine: async (body: string) => {
-              await denops.call("denippet#anonymous", body);
-            },
+            // snippetEngine: async (body: string) => {
+            //  await denops.call("denops#callback#register", body);
+            // },
             enableResolveItem: true,
             enableAdditionalTextEdit: true,
           },
@@ -420,18 +517,18 @@ export async function main(denops: Denops): Promise<void> {
           },
         },
       }),
-      // await mapping.map(
-      //   denops,
-      //   "<expr><Down>",
-      //   "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Down>'",
-      //   { mode: ["i", "c"] },
-      // ),
-      await mapping.map(
-        denops,
-        "<expr><Tab>",
-        "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Tab>'",
-        { mode: ["i", "c"] },
-      ),
+        // await mapping.map(
+        //   denops,
+        //   "<expr><Down>",
+        //   "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Down>'",
+        //   { mode: ["i", "c"] },
+        // ),
+        await mapping.map(
+          denops,
+          "<expr><Tab>",
+          "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Tab>'",
+          { mode: ["i", "c"] },
+        );
       // await mapping.map(
       //   denops,
       //   "<expr><Up>",
@@ -443,38 +540,48 @@ export async function main(denops: Denops): Promise<void> {
         "<expr><S-Tab>",
         "pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<S-Tab>'",
         { mode: ["i", "c"] },
-      ),
+      );
       await mapping.map(
         denops,
         "<expr><CR>",
         "pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'",
         { mode: ["i", "c"] },
-      ),
-      await denops.call("ddc#enable"),
-      await denops.call("ddc#enable_cmdline_completion"),
+      );
+      await denops.call("ddc#enable");
+      await denops.call("ddc#enable_cmdline_completion");
       await autocmd.define(
         denops,
         "User",
         "DDCCmdlineLeave",
         "call ddc#enable_cmdline_completion()",
-      )
-    }
+      );
+    },
   });
 
   // ddu settings
+  await dvpm.add({ url: "Shougo/ddu-ui-ff" });
+  await dvpm.add({ url: "Shougo/ddu-ui-filer" });
+  await dvpm.add({ url: "Shougo/ddu-source-file" });
+  await dvpm.add({ url: "Shougo/ddu-kind-file" });
+  await dvpm.add({ url: "Shougo/ddu-source-file_rec" });
+  await dvpm.add({ url: "Shougo/ddu-filter-matcher_substring" });
+  await dvpm.add({ url: "Shougo/ddu-filter-sorter_alpha" });
+  await dvpm.add({ url: "matsui54/ddu-source-help" });
+  await dvpm.add({ url: "shun/ddu-source-buffer" });
+  await dvpm.add({ url: "ryota2357/ddu-column-icon_filename" });
   await dvpm.add({
     url: "Shougo/ddu.vim",
     dependencies: [
-      { url: "Shougo/ddu-ui-ff" },
-      { url: "Shougo/ddu-ui-filer" },
-      { url: "Shougo/ddu-source-file" },
-      { url: "Shougo/ddu-kind-file" },
-      { url: "Shougo/ddu-source-file_rec" },
-      { url: "Shougo/ddu-filter-matcher_substring" },
-      { url: "Shougo/ddu-filter-sorter_alpha" },
-      { url: "matsui54/ddu-source-help" },
-      { url: "shun/ddu-source-buffer" },
-      { url: "ryota2357/ddu-column-icon_filename" },
+      "Shougo/ddu-ui-ff",
+      "Shougo/ddu-ui-filer",
+      "Shougo/ddu-source-file",
+      "Shougo/ddu-kind-file",
+      "Shougo/ddu-source-file_rec",
+      "Shougo/ddu-filter-matcher_substring",
+      "Shougo/ddu-filter-sorter_alpha",
+      "matsui54/ddu-source-help",
+      "shun/ddu-source-buffer",
+      "ryota2357/ddu-column-icon_filename",
     ],
     after: async ({ denops }) => {
       await denops.call("ddu#custom#patch_global", {
@@ -496,8 +603,8 @@ export async function main(denops: Denops): Promise<void> {
             previewFloatingTitle: "Preview",
             previewHeight: "&lines - 8",
             previewWidth: "&columns / 2 - 2",
-            // previewRow: 1,
-            // previewCol: "&columns / 2 + 1",
+            previewRow: 1,
+            previewCol: "&columns / 2 + 1",
           },
         },
         sources: [{ name: "file" }],
@@ -524,18 +631,18 @@ export async function main(denops: Denops): Promise<void> {
             defaultIcon: { icon: "" },
           },
         },
-      }),
+      });
       await denops.call("ddu#custom#patch_local", "help-ff", {
         sources: [{ name: "help" }],
         sourceParams: {
           helplang: "ja",
           style: "minimal",
         },
-      }),
+      });
       await denops.call("ddu#custom#patch_local", "buffer", {
         ui: "filer",
         sources: [{ name: "buffer" }],
-      }),
+      });
       await denops.call("ddu#custom#patch_local", "filer", {
         ui: "filer",
         uiParams: {
@@ -575,9 +682,8 @@ export async function main(denops: Denops): Promise<void> {
     },
   });
 
-
   await dvpm.end();
-  
+
   // denops.call("denops#cache#update",{reload: true});
   await nFunc.nvim_create_user_command(
     denops,

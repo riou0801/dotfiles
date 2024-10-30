@@ -1,13 +1,13 @@
 -- おまじない
 vim.loader.enable()
 
--- dvpm setup
 local denops = vim.fn.expand("~/.cache/nvim/dvpm/github.com/vim-denops/denops.vim")
-if not vim.loop.fs_stat(denops) then
+if not vim.uv.fs_stat(denops) then
 	vim.fn.system({ "git", "clone", "https://github.com/vim-denops/denops.vim", denops })
 end
 vim.opt.runtimepath:prepend(denops)
 vim.opt.runtimepath:prepend(vim.fn.expand("~/.config/nvim/snippets"))
+vim.opt.runtimepath:append(vim.fn.expand("~/.config/nvim/cache"))
 
 -- set global options
 vim.api.nvim_set_var("loaded_netrw", 1)
@@ -70,3 +70,16 @@ vim.api.nvim_create_autocmd({"InsertLeave", "CmdlineLeave"}, {
 
 require("ddu-keymap")
 -- require("help-float")
+--
+vim.api.nvim_create_user_command(
+  "Mes",
+  "new Message | put =execute('messages') | set buftype=nofile",
+  { desc = "messages to buffer"}
+)
+
+vim.keymap.set(
+  "n",
+  "<Space>ff",
+  "<Cmd>FZF --reverse<CR>",
+  { desc = "fuzzy finder with fzf"}
+)
