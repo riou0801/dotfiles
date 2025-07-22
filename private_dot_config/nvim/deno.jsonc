@@ -11,6 +11,7 @@
       "denops"
     ]
   },
+  "nodeModulesDir": "auto",
   "lint": {
     "include": [
       "denops"

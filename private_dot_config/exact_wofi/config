@@ -5,4 +5,3 @@ show_all=false
 location=center
 print_command=true
 insensitive=true
-prompt= Hmm, what do you want to Copy?

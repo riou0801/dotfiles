@@ -11,14 +11,23 @@ auto-info = true
 preview-completion-insert = false
 completion-trigger-len = 3
 completion-replace = true
+popup-border = "popup"
 bufferline = "multiple"
 true-color = true
 color-modes = true
+end-of-line-diagnostics = "hint"
 
 [editor.statusline]
-left = ["mode", "spinner"]
-center = ["file-name", "read-only-indicator"]
-right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+left = ["mode", "spinner", "file-modification-indicator"]
+center = ["file-name", "version-control", "read-only-indicator"]
+right = [
+  "diagnostics",
+  "selections",
+  "position",
+  "file-encoding",
+  "file-line-ending",
+  "file-type",
+]
 separator = "│"
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
@@ -34,16 +43,17 @@ hidden = false
 parents = true
 
 [editor.auto-pairs]
-'(' = ')'
-'{' = '}'
-'[' = ']'
+'(' = ")"
+'{' = "}"
+'[' = "]"
+"'" = "'"
 '"' = '"'
-'`' = '`'
-'<' = '>'
+'`' = "`"
+'<' = ">"
 
 [editor.indent-guides]
 render = true
-character = "╎" # Some characters that work well: "▏", "┆", "┊", "⸽"
+character = "╎"  # Some characters that work well: "▏", "┆", "┊", "⸽"
 skip-levels = 1
 
 [editor.gutters]
@@ -51,29 +61,35 @@ layout = ["diff", "diagnostics", "line-numbers", "spacer"]
 
 [editor.soft-wrap]
 enable = true
-max-wrap = 25 # increase value to reduce forced mid-word wrapping
+max-wrap = 25  # increase value to reduce forced mid-word wrapping
 max-indent-retain = 0
 wrap-indicator = "↪"  # set wrap-indicator to "" to hide it
 
 [editor.lsp]
 enable = true
 display-messages = true
-auto-signature-help = false
+auto-signature-help = true
 display-inlay-hints = false
-display-signature-help-docs = false
+display-signature-help-docs = true
 snippets = true
 goto-reference-include-declaration = true
 
+[editor.inline-diagnostics]
+cursor-line = "warning"
+other-lines = "warning"
+
 # At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
 [keys.normal]
-C-s = ":w" # Maps Ctrl-s to the typable command :w which is an alias for :write (save file)
-C-o = ":open ~/.config/helix/config.toml" # Maps Ctrl-o to opening of the helix config file
-"C-S-esc" = "extend_line" # Maps Ctrl-Shift-Escape to extend_line
-g = { a = "code_action" } # Maps `ga` to show possible code actions
-"ret" = ["open_below", "normal_mode"] # Maps the enter key to open_below then re-enter normal mode
+C-s = ":w"  # Maps Ctrl-s to the typable command :w which is an alias for :write (save file)
+C-o = ":open ~/.config/helix/config.toml"  # Maps Ctrl-o to opening of the helix config file
+"C-S-esc" = "extend_line"  # Maps Ctrl-Shift-Escape to extend_line
+g = { a = "code_action" }  # Maps `ga` to show possible code actions
+"ret" = [
+  "open_below",
+  "normal_mode",
+]  # Maps the enter key to open_below then re-enter normal mode
 
 [keys.insert]
-"C-v" = ":clipboard-paste-after"     # Maps Ctrl-v to paste clipboard
-j = { k = "normal_mode" } # Maps `jk` to exit insert mode
+"C-v" = ":clipboard-paste-after"  # Maps Ctrl-v to paste clipboard
+j = { k = "normal_mode" }  # Maps `jk` to exit insert mode
 "esc" = [":sh fcitx5-remote -c", "normal_mode"]
-

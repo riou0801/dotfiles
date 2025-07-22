@@ -6,8 +6,8 @@ modmap:
       CONTROL_R: ALT_R
       CapsLock: CONTROL_R
       Muhenkan: Shift_L
-          
-#      
+
+#
 #      YEN: YEN|
 #     @`GRAVE
 #      [{
@@ -15,6 +15,3 @@ modmap:
 #      ;+
 #      :*
 #      \_
-
-
-      

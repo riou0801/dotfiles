@@ -19,8 +19,13 @@ if status is-interactive
     abbr -a sude sudo -E helix
     abbr -a zg 'z $(ghq root)/$(ghq list | fzf --height 30 --preview "eza -1 -T --icons --sort name --color always $(ghq root)/{}" --layout reverse --border rounded)'
     abbr -a nvim-test env NVIM_APPNAME=nvim-test nvim
+    abbr -a ghn env GHQ_ROOT=$HOME/.config/nvim-test/pack ghq
     # abbr -a spt spt; and systemctl --user restart spotifyd.service
     abbr -a diff diff -u --color
+    abbr -a zed zeditor
+    abbr -a hx helix
+    abbr -a yas yay -Ss
+    abbr -a pas pacman -Ss
 end
 
 zoxide init fish | source

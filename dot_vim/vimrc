@@ -61,11 +61,11 @@ import autoload "plasma/git.vim"
 import autoload "plasma/installer.vim"
 const config: list<plasma.Config> = [
   {
-    repo: "codeberg.org/9yokuro/plasma.vim",
+    "repo": "codeberg.org/9yokuro/plasma.vim",
   },
   {
-    repo: "codeberg.org/9yokuro/plasma-installer.vim",
-    merged: true,
+    "repo": "codeberg.org/9yokuro/plasma-installer.vim",
+    "merged": true,
   },
   {
     repo: "codeberg.org/9yokuro/plasma-git.vim",
@@ -79,7 +79,7 @@ const config: list<plasma.Config> = [
     repo: "github.com/girishji/vimcomplete",
   },
   {
-    repo: "github.com/girishji/autosuggest.vim",
+    repo: "github.com/girishji/vimsuggest",
   },
   {
     repo: "github.com/yegappan/lsp",
@@ -89,6 +89,9 @@ const config: list<plasma.Config> = [
   },
   {
     repo: "github.com/catppuccin/vim",
+  },
+  {
+    repo: "github.com/ycm/poplar.vim",
   },
 ]
 const plugins: plasma.Plugins = plasma.ParseConfig(config, plasmaDir)
@@ -113,29 +116,69 @@ g:vimcomplete_tab_enable = 1
 autocmd VimEnter * g:VimCompleteOptionsSet(options)
 
 # lsp
-var lspOpts = { autoHighlightDiags: true }
+var lspOpts = { 
+  autoHighlightDiags: true,
+  diagVirtualTextAlign: "after",
+  showDiagWithVirtualText: true
+}
 autocmd User LspSetup g:LspOptionsSet(lspOpts)
 
 var lspServers = [
   {
-   name: "denols",
-   filetype: ["javascript", "typescript"],
-   path: "/usr/bin/deno",
-   args: ["lsp"],
+     name: "denols",
+     filetype: ["javascript", "typescript"],
+     path: "/usr/bin/deno",
+     args: ["lsp"],
+     debug: true,
+     initializationOptions: {
+       enable: true,
+       lint: true,
+     }
   },
   {
-   name: "vimls",
-   filetype: "vim",
-   path: "/usr/bin/vim-language-server",
-   args: ["--stdio"],
+     name: "vimls",
+     filetype: "vim",
+     path: "/usr/bin/vim-language-server",
+     args: ["--stdio"],
+  },
+  {
+    name: "luals",
+    filetype: "lua",
+    path: "/usr/bin/lua-language-server",
+    args: [],
+    workspaceConfig: {
+      Lua: {
+        hint: {
+          enable: true,
+        },
+      },
+    },
+  },
+  {
+    name: "jsonls",
+    filetype: ["json"],
+    path: "/usr/bin/vscode-json-languageserver",
+    args: ["--stdio"]
+  },
+  {
+    filetype: ["json"],
+    path: "/usr/bin/deno",
+    args: ["lsp"],
+    features: {
+      documentFormatting: true
+    }
   }
 ]
 autocmd User LspSetup g:LspAddServer(lspServers)
 
 # settings
 set number
+set smartindent
+set whichwrap=b,s,<,>,[,]
 set encoding=utf-8
 set termguicolors
+set smartcase
+set ignorecase
 set expandtab
 set shiftwidth=2
 set softtabstop=2
@@ -146,3 +189,6 @@ syntax enable
 colorscheme catppuccin_mocha
 hi Normal guibg=NONE
 g:ambiwidth = "double"
+
+# gui
+set guioptions=AdgLM

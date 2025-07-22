@@ -69,14 +69,17 @@ lspconfig.typos_lsp.setup({})
 -- Global mappings.
 -- See ":help vim.diagnostic.*" for documentation on any of the below functions
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, { desc = "diagnostic in float" })
-vim.keymap.set("n", "<space>dp", function()
-  vim.diagnostic.jump({ count = 1 })
-end, { desc = "go to prev diagnostics" })
+vim.keymap.set("n", "<space>dp",
+  function()
+    vim.diagnostic.jump({ count = 1 })
+  end,
+  { desc = "go to prev diagnostics" })
 vim.keymap.set("n", "<space>dn",
   function()
     vim.diagnostic.jump({ count = -1 })
-  end, { desc = "go to next diagnostics" })
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "setloclist" })
+  end,
+  { desc = "go to next diagnostics" })
+-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, { desc = "setloclist" })
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -97,14 +100,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { buffer = bufnr, desc = "add workspace folder" })
     vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder,
       { buffer = bufnr, desc = "remove workspace folder" })
-    vim.keymap.set("n", "<space>wl", function()
+    vim.keymap.set("n", "<space>wl",
+    function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, { buffer = bufnr, desc = "show workspace folders list" })
     vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, { buffer = bufnr, desc = "show type definition" })
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "rename" })
     vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "code_action" })
     vim.keymap.set("n", "<space>gr", vim.lsp.buf.references, { buffer = bufnr, desc = "go to references" })
-    vim.keymap.set("n", "<space>fo", function()
+    vim.keymap.set("n", "<space>fo",
+    function()
       vim.lsp.buf.format({ async = true })
     end, { buffer = bufnr, desc = "format" })
   end,

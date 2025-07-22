@@ -2,3 +2,4 @@ set $term wezterm
 set $browser vivaldi-stable
 set $filemanager nemo
 set $editor helix
+set $launcher walker -n

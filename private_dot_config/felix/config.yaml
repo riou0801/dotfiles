@@ -6,10 +6,10 @@ default: helix
 # (Optional)
 # key (the command you want to use): [values] (extensions)
 exec:
-   imv:
-     [jpg, jpeg, png, gif, svg, webp]
-   zathura:
-     [pdf]
+  imv:
+    [jpg, jpeg, png, gif, svg, webp]
+  zathura:
+    [pdf]
 
 # (Optional)
 # Whether to use syntax highlighting in the preview mode.
@@ -36,7 +36,7 @@ theme_path: "/home/riou/.config/felix/Catppuccin-mocha.tmTheme"
 
 # The foreground color of directory, file and symlink.
 # Pick one of the following:
-#     Black           // 0 
+#     Black           // 0
 #     Red             // 1
 #     Green           // 2
 #     Yellow          // 3
@@ -56,10 +56,10 @@ theme_path: "/home/riou/.config/felix/Catppuccin-mocha.tmTheme"
 #     AnsiValue(u8)
 # For more details, see https://docs.rs/termion/1.5.6/termion/color/index.html
 # color:
-  # dir_fg: LightCyan
-  # file_fg: LightWhite
-  # symlink_fg: LightYellow
-  # dirty_fg: Red
+# dir_fg: LightCyan
+# file_fg: LightWhite
+# symlink_fg: LightYellow
+# dirty_fg: Red
 
 # Catppuccin mocha
 color:

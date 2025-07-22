@@ -2,15 +2,6 @@
 
 exec --no-startup-id fcitx5 -d
 
-# clipman now disable
-# exec wl-paste -t text --watch clipman store --no-persist
-# exec wl-paste -p -t text --watch clipman store -P --hist -path="~/.local/share/clipman-primary.json"
-
-
-# clapboard
-# exec wl-paste --watch bash -c "xargs -0 -I{} clapboard store {}"
-# exec wl-paste -p --watch bash -c "xargs -0 -I{} clapboard store {}"
-
 # cliphist
 exec wl-paste --watch cliphist store 
 exec wl-paste --type text --watch cliphist store
@@ -22,13 +13,15 @@ exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
 exec systemctl --user import-environment DISPLAY \
                                          WAYLAND_DISPLAY \
                                          SWAYSOCK \
-                                         XDG_CURRENT_DESKTOP
+                                         XDG_CURRENT_DESKTOP \
+										 PATH
                                         
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY \
                                                   WAYLAND_DISPLAY \
                                                   SWAYSOCK \
-                                                  XDG_CURRENT_DESKTOP=sway
+                                                  XDG_CURRENT_DESKTOP=sway \
+												  PATH
 
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako
@@ -37,9 +30,8 @@ exec mako
 exec blueman-applet
 exec systemctl --user start iwgtk.service
 exec udiskie -ant --appindicator
-exec_always autotiling
+exec_always autotiling --limit 2
 exec foot --server
-# exec beeper --enable-features=UseOzonePlatform  --ozone-platform-hint=auto --hidden
 exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
 
 # use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
@@ -52,3 +44,5 @@ exec swayidle -w \
 
 # memos
 exec docker start memos 
+
+exec_always ~/.cargo/bin/swtchrd
