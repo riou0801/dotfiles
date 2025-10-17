@@ -76,12 +76,6 @@ const config: list<plasma.Config> = [
     merged: true,
   },
   {
-    repo: "github.com/girishji/vimcomplete",
-  },
-  {
-    repo: "github.com/girishji/vimsuggest",
-  },
-  {
     repo: "github.com/yegappan/lsp",
   },
   {
@@ -93,6 +87,9 @@ const config: list<plasma.Config> = [
   {
     repo: "github.com/ycm/poplar.vim",
   },
+  {
+    repo: "github.com/Bakudankun/qline.vim",
+  }
 ]
 const plugins: plasma.Plugins = plasma.ParseConfig(config, plasmaDir)
 execute plasma.Load(plugins, plasmaDir)
@@ -108,18 +105,14 @@ augroup vimrcAugroup
 
 # }}}
 
-# vimcomplete
-var options = {
-  completor: { noNewlineInCompletion: true, triggerWordLen: 2 }
-} 
-g:vimcomplete_tab_enable = 1
-autocmd VimEnter * g:VimCompleteOptionsSet(options)
 
 # lsp
-var lspOpts = { 
+var lspOpts = {
+  autoComplete: true,
   autoHighlightDiags: true,
   diagVirtualTextAlign: "after",
-  showDiagWithVirtualText: true
+  showDiagWithVirtualText: true,
+  condensedCompletionMenu: true,
 }
 autocmd User LspSetup g:LspOptionsSet(lspOpts)
 
@@ -183,12 +176,42 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set clipboard^=unnamedplus
+set fillchars+=eob:\\x20
 scriptencoding utf-8
 filetype plugin indent on
 syntax enable
 colorscheme catppuccin_mocha
 hi Normal guibg=NONE
+hi SignColumn guibg=NONE
 g:ambiwidth = "double"
+
+
+# builtin autocompletion 
+set autocomplete
+set complete=.^5,w^5,b^5,u^5,o^5
+set completeopt=menu,popup,fuzzy
+set completefuzzycollect=keyword
+inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+set wildoptions=pum,fuzzy
+set wildmode=noselect:lastused,full
+autocmd CmdlineChanged [:\/\?] call wildtrigger()
+cnoremap <expr> <Up>   wildmenumode() ? "\<C-E>\<Up>" : "\<Up>"
+cnoremap <expr> <Down> wildmenumode() ? "\<C-E>\<Down>" : "\<Down>"
+
+
+if has('vim_starting')
+  # 挿入モード時に非点滅の縦棒タイプのカーソル
+  &t_SI ..= "\e[6 q"
+  # ノーマルモード時に非点滅のブロックタイプのカーソル
+  &t_EI ..= "\e[2 q"
+  # 置換モード時に非点滅の下線タイプのカーソル
+  &t_SR ..= "\e[4 q"
+endif
 
 # gui
 set guioptions=AdgLM
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+
+# command
+command Config edit ~/.vim/vimrc

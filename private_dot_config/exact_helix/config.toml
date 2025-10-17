@@ -68,6 +68,7 @@ wrap-indicator = "↪"  # set wrap-indicator to "" to hide it
 [editor.lsp]
 enable = true
 display-messages = true
+display-progress-messages   = true
 auto-signature-help = true
 display-inlay-hints = false
 display-signature-help-docs = true

@@ -32,7 +32,7 @@ exec systemctl --user start iwgtk.service
 exec udiskie -ant --appindicator
 exec_always autotiling --limit 2
 exec foot --server
-exec slack -s --enable-featyures=UsoOzonePlatform --ozone-platform=wayland
+# exec slack -s 
 
 # use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
 # waylock, gtklock, wallock or anything else?
@@ -41,6 +41,9 @@ exec swayidle -w \
     timeout 300 'loginctl lock-session' \
     timeout 600 'systemctl suspend' \
     after-resume 'swaymsg reload'
+
+# Swaddle configuration
+exec_always --no-startup-id /home/riou/.local/bin/swaddle &
 
 # memos
 exec docker start memos 

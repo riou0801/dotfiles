@@ -17,7 +17,7 @@
 2. `chezmoi add ~/path/to/config` or `chezmoi re-add`
 3. `chezmoi apply`
 4. `chezmoi cd` or `chezmoi git -- [args]`
-5. ```
+5. ```fish
    git add .  
    git commit -m "commit message"
    git push -u origin main
