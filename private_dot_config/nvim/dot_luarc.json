@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "diagnostics": {
+    "globals": [
+      "vim"
+    ]
+  },
+  "runtime.version": "LuaJIT",
+  "runtime.path": ["lua/?.lua", "lua/?/init.lua"],
+  "workspace.library":["$VIMRUNTIME","$HOME/.local/share/nvim/site/pack/core/opt"],
+  "signatureHelp.enable": true,
+  "hint.enable": true
+}

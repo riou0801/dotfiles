@@ -1,0 +1,126 @@
+import * as mapping from "jsr:@denops/std/mapping";
+import type { Denops } from "jsr:@denops/std";
+import * as autocmd from "jsr:@denops/std/autocmd";
+
+export async function ddcConfig(denops: Denops): Promise<void> {
+  const defaultSources = ["lsp", "denippet", "around"];
+
+  // スニペット展開関数を登録（denippet or vim.snippet）
+  const snippetId = await denops.call("denops#callback#register", async (body: string) => {
+    // denippet を使う場合
+    await denops.call("denippet#anonymous", body);
+
+    // vim.snippet を使いたい場合（Neovim 0.10〜）
+    // await denops.call("luaeval", `require("vim.snippet").expand(_A)`, body);
+  });
+
+  // ファイルタイプ別 source 追加
+  await denops.call("ddc#custom#patch_filetype", "lua", {
+    sources: [...defaultSources, "nvim-lua"],
+  });
+  await denops.call("ddc#custom#patch_filetype", "vim", {
+    sources: [...defaultSources, "vim"],
+    specialBufferCompletion: true,
+  });
+
+  // グローバル設定
+  await denops.call("ddc#custom#patch_global", {
+    ui: "pum",
+    autoCompleteEvents: [
+      "InsertEnter",
+      "TextChangedI",
+      "TextChangedP",
+      "TextChangedT",
+      "CmdlineChanged",
+      "CmdlineEnter",
+    ],
+    sources: defaultSources,
+    cmdlineSources: {
+      ":": ["cmdline", "cmdline_history", "shell_native", "file", "around"],
+      "@": ["input", "cmdline_history", "file", "around"],
+      ">": ["input", "cmdline_history", "file", "around"],
+      "/": ["around"],
+      "?": ["around"],
+      "-": ["around"],
+      "=": ["input"],
+    },
+    sourceOptions: {
+      _: {
+        minAutoCompleteLength: 2,
+        ignoreCase: true,
+        isVolatile: true,
+        maxItems: 5,
+        matchers: ["matcher_fuzzy"],
+        sorters: ["sorter_fuzzy", "sorter_rank"],
+        converters: ["converter_fuzzy", "converter_truncate_abbr"],
+      },
+      input: { mark: "input", isVolatile: true },
+      line: { mark: "line" },
+      cmdline: { mark: "cmd", forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*" },
+      denippet: { mark: "denippet" },
+      cmdline_history: { mark: "c-his" },
+      shell_native: { mark: "fish" },
+      around: { mark: "around" },
+      vim: { mark: "vim", isVolatile: true },
+      "nvim-lua": { mark: "lua", forceCompletionPattern: "\\.\\w*" },
+      lsp: {
+        mark: "lsp",
+        forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
+        dup: "force",
+        sorters: ["sorter_lsp-kind"],
+      },
+    },
+    sourceParams: {
+      line: { maxSize: 250 },
+      shell_native: { shell: "fish" },
+      lsp: {
+        snippetEngine: `denops#callback#${snippetId}`,
+        enableResolveItem: true,
+        enableAdditionalTextEdit: true,
+      },
+    },
+    postFilters: ["postfilter_score"],
+    filterParams: {
+      "sorter_lsp-kind": {
+        priority: [
+          "Enum",
+          ["Method", "Function"],
+          "Field",
+          "Variable",
+        ],
+      },
+      postfilter_score: { showScore: true },
+      converter_truncate_abbr: { maxAbbrWidth: 60 },
+    },
+  });
+
+  // マッピング
+  await mapping.map(
+    denops,
+    "<expr><Tab>",
+    "pum#visible() ? '<Cmd>call pum#map#select_relative(+1)<CR>' : '<Tab>'",
+    { mode: ["i", "c"], noremap: true },
+  );
+  await mapping.map(
+    denops,
+    "<expr><S-Tab>",
+    "pum#visible() ? '<Cmd>call pum#map#select_relative(-1)<CR>' : '<S-Tab>'",
+    { mode: ["i", "c"], noremap: true },
+  );
+  await mapping.map(
+    denops,
+    "<expr><CR>",
+    "pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'",
+    { mode: ["i", "c"], noremap: true },
+  );
+
+  // 有効化
+  await denops.call("ddc#enable");
+  await denops.call("ddc#enable_cmdline_completion");
+  await autocmd.define(
+    denops,
+    "User",
+    "DDCCmdlineLeave",
+    "call ddc#enable_cmdline_completion()",
+  );
+}

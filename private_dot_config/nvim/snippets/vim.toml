@@ -1,0 +1,3 @@
+[runtimepath]
+prefix = ['rtp', 'runtimepath']
+body ="set rtp+=$1"

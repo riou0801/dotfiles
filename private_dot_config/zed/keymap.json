@@ -1,0 +1,22 @@
+[
+  {
+    "context": "Editor && showing_completions",
+    "bindings": {
+      "tab": "editor::ContextMenuNext"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "bindings": {
+      "tab": "editor::AcceptEditPrediction",
+      "alt-l": null
+    }
+  },
+  {
+    "context": "Editor && edit_predictions_conflict",
+    "bindings": {
+      "alt-tab": "editor::AcceptEditPrediction",
+      "alt-l": null
+    }
+  }
+]

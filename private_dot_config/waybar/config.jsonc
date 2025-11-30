@@ -1,0 +1,255 @@
+[
+  {
+    "layer": "bottom",
+    "output": "HDMI-A-1",
+    "position": "top",
+    "height": 36,
+    "reload_style_on_change": true,
+    "modules-left": [
+      "group/workspaces",
+      "sway/scratchpad"
+    ],
+    "modules-center": [
+      "mpris"
+    ],
+    "modules-right": [
+      "custom/pacman",
+      "disk",
+      "group/audio",
+      "tray",
+      "clock"
+    ],
+    "group/workspaces": {
+      "orientation": "inherit",
+      "modules": [
+        "sway/workspaces",
+        "wlr/taskbar"
+      ]
+    },
+    "group/audio": {
+      "orientation": "inherit",
+      "modules": [
+        "wireplumber",
+        "bluetooth"
+      ],
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "drawer-child",
+        "click-to-reveal": false
+      }
+    },
+    "sway/workspaces": {
+      "disable-scroll": true,
+      "disable-click": false,
+      "format": "{index}"
+    },
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 20,
+      "icon-theme": "Papirus-Dark",
+      "tooltip-format": "{name}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "app_ids-mapping": {
+        "firefoxdeveloperedition": "firefox-developer-edition"
+      }
+    },
+    "sway/mode": {
+      "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/scratchpad": {
+      "format": "{icon} {count}",
+      "show-empty": false,
+      "format-icons": [
+        "",
+        ""
+      ],
+      "tooltip": true,
+      "tooltip-format": "{app}: {title}"
+    },
+    "tray": {
+      "spacing": 10
+    },
+    "clock": {
+      "format": "{:%a %Y/%m/%d %R}",
+      "timezone": ""
+    },
+    "disk": {
+      "format": " {specific_free:0.1f}GB",
+      "unit": "GB"
+    },
+    "custom/pacman": {
+      "format": "{icon} {0}",
+      "return-type": "json",
+      "format-icons": {
+        "pending-updates": "󱍷",
+        "updated": ""
+      },
+      "exec-if": "which waybar-updates",
+      "exec": "waybar-updates"
+    },
+    "mpris": {
+      "interval": 0.5,
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "format-stopped": "{status_icon}",
+      "player-icons": {
+        "default": "",
+        "mpv": "🎵"
+      },
+      "status-icons": {
+        "playing": "",
+        "paused": "",
+        "stopped": ""
+      },
+      "dynamic-len": 45,
+      "dynamic-separator": "/"
+      // "ignored-players": ["firefox"]
+    },
+    "network": {
+      "format-wifi": " {essid}",
+      "format-disconnected": "⚠ Disconnected"
+    },
+    "wireplumber": {
+      "format": "{icon} {volume}%",
+      "format-muted": "",
+      "on-click": "pavucontrol",
+      "format-icons": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": "",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+      "on-click": "overskride"
+    }
+  },
+  {
+    "layer": "bottom",
+    "output": "HDMI-A-2",
+    "position": "top",
+    "height": 36,
+    "modules-left": [
+      "group/workspaces",
+      "sway/scratchpad"
+    ],
+    "modules-center": [
+      "mpris"
+    ],
+    "modules-right": [
+      "group/audio",
+      "tray",
+      "clock"
+    ],
+    "group/workspaces": {
+      "orientation": "inherit",
+      "modules": [
+        "sway/workspaces",
+        "wlr/taskbar"
+      ]
+    },
+    "group/audio": {
+      "orientation": "inherit",
+      "modules": [
+        "wireplumber",
+        "bluetooth"
+      ],
+      "drawer": {
+        "transition-duration": 1000,
+        "children-class": "drawer-child"
+      }
+    },
+    "sway/workspaces": {
+      "disable-scroll": true,
+      "disable-click": true,
+      "format": "{index}"
+    },
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 20,
+      "icon-theme": "Papirus-Dark",
+      "tooltip-format": "{name}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "app_ids-mapping": {
+        "firefoxdeveloperedition": "firefox-developer-edition"
+      }
+    },
+    "sway/mode": {
+      "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/scratchpad": {
+      "format": "{icon} {count}",
+      "show-empty": false,
+      "format-icons": [
+        "",
+        ""
+      ],
+      "tooltip": true,
+      "tooltip-format": "{app}: {title}"
+    },
+    "tray": {
+      "spacing": 10
+    },
+    "clock": {
+      "format": "{:%a %Y/%m/%d %R}"
+    },
+    "custom/pacman": {
+      "format": "{icon} {}",
+      "return-type": "json",
+      "format-icons": {
+        "pending-updates": "󱍷",
+        "updated": ""
+      },
+      "exec-if": "which waybar-updates",
+      "exec": "waybar-updates"
+    },
+    "mpris": {
+      "interval": 0,
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "player-icons": {
+        "default": "",
+        "mpv": "🎵"
+      },
+      "status-icons": {
+        "paused": ""
+      },
+      "dynamic-len": 45,
+      "dynamic-separator": "/"
+    },
+    "network": {
+      "format-wifi": " {essid}",
+      "format-disconnected": "⚠ Disconnected"
+    },
+    "wireplumber": {
+      "format": "{icon} {volume}%",
+      "format-muted": "",
+      "on-click": "pavucontrol",
+      "format-icons": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": "",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+      "on-click": "overskride"
+    }
+  }
+]

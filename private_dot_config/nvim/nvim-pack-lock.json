@@ -1,0 +1,22 @@
+{
+  "plugins": {
+    "denops-shared-server.vim": [],
+    "denops.vim": [],
+    "fzf-lua": [],
+    "lualine.nvim": [],
+    "modes.nvim": [],
+    "nvim": [],
+    "nvim-cmp-kit": [],
+    "nvim-deck": [],
+    "nvim-ix": [],
+    "nvim-notify": [],
+    "nvim-treesitter": {
+      "version": "'main'"
+    },
+    "nvim-web-devicons": [],
+    "quicker.nvim": [],
+    "vim-fall": [],
+    "vimdoc-ja": [],
+    "which-key.nvim": []
+  }
+}

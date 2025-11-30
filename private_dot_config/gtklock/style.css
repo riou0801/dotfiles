@@ -1,0 +1,45 @@
+window#HDMI-A-1 {
+  background-image: url("/home/riou/.config/background/catppuccin_ekg_1.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: black;
+}
+
+#window-box {
+  background-color: alpha(@theme_bg_color, 0.96);
+  border: 1px solid @borders;
+  box-shadow: 10px 10px 0px @theme_bg_color;
+  padding: 3em;
+}
+
+/* #body { */
+/* background-color: @warning_color; */
+/* } */
+
+#clock-label {
+  min-width: 320px;
+  background-color: alpha(@theme_bg_color, 0.1);
+  color: @theme_text_color;
+  font-weight: 500;
+  font-size: 16pt;
+  padding: 10px 30px;
+  margin-bottom: 10px;
+  /* border-radius: 0 0 10px 10px; */
+  /* border: 1px solid alpha(@borders, 0.5); */
+  border-top: 0;
+}
+
+/* hide "Password:" label */
+#input-label {
+  font-size: 0;
+}
+
+/* hide date-label under the clock */
+#date-label {
+  font-size: 0;
+}
+
+#user-name {
+  font-size: 16pt;
+}

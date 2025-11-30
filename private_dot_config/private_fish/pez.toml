@@ -1,0 +1,8 @@
+[[plugins]]
+repo = "catppuccin/fish"
+
+[[plugins]]
+repo = "jorgebucaran/autopair.fish"
+
+[[plugins]]
+repo = "patrickf1/fzf.fish"
