@@ -105,6 +105,7 @@ augroup vimrcAugroup
 
 # }}}
 
+g:qline_config = {colorscheme: "default"}
 
 # lsp
 var lspOpts = {

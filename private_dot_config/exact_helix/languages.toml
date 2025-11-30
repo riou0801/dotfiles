@@ -1,0 +1,67 @@
+[[language]]
+name = "typescript"
+language-id = "typescript"
+scope = "source.ts"
+injection-regex = "^(ts|typescript)$"
+file-types = ["ts"]
+shebangs = ["deno"]
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = true
+language-servers = ["deno-lsp"]
+
+[language-server.deno-lsp]
+command = "deno"
+args = ["lsp"]
+
+[language-server.deno-lsp.config.deno]
+enable = true
+
+[[language]]
+name = "lua"
+injection-regex = "lua"
+scope = "source.lua"
+file-types = ["lua", "rockspec"]
+shebangs = ["lua", "luajit"]
+roots = [".luarc.json", ".luarc.lua", ".luacheckrc", ".stylua.toml", "selene.toml", ".git"]
+comment-token = "--"
+block-comment-tokens = { start = "--[[", end = "--]]" }
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "lua-language-server" ]
+
+[language-server.lua-language-server]
+command = "lua-language-server"
+
+[language-server.lua-language-server.config.Lua.hint]
+enable = true
+arrayIndex = "Enable"
+setType = true
+paramName = "All"
+paramType = true
+await = true
+
+[language-server.lua-language-server.config.Lua.diagnostics]
+globals = ["vim"]
+
+[language-server.tombi]
+command = "tombi"
+args = ["lsp"]
+
+[[language]]
+name = "toml"
+scope = "source.toml"
+injection-regex = "toml"
+file-types = [
+  "toml",
+  { glob = "pdm.lock" },
+  { glob = "poetry.lock" },
+  { glob = "Cargo.lock" },
+  { glob = "uv.lock" }
+]
+comment-token = "#"
+language-servers = [ "taplo", "tombi" ]
+formatter = { command = "tombi" , args = ["format", "%{buffer_name}"] }
+indent = { tab-width = 2, unit = "  " }
+
+[[grammar]]
+name = "toml"
+source = { git = "https://github.com/ikatyang/tree-sitter-toml", rev = "7cff70bbcbbc62001b465603ca1ea88edd668704" }

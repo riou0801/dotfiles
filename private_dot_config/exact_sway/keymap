@@ -1,0 +1,168 @@
+# mod key used for most binds
+# Mod1 = Alt
+# Mod4 = Super
+set $Mod Mod4
+
+#############         Bindings           ##################
+# wayland ime
+bindsym $Mod+j exec footclient -w 640x360 -a ime fish -c ime
+
+# kill focused window
+bindsym $Mod+Shift+q kill
+bindsym Mod1+q kill
+bindsym Mod1+F4 kill
+
+# core applications
+bindsym $Mod+Return       exec $term
+bindsym $Mod+e            exec $editor
+bindsym $Mod+w            exec $browser
+bindsym Control+space     exec fuzzel
+bindsym $Mod+v            exec wezterm --config window_background_opacity=1 start  --class ime -- fish -c "cliphist list | fzf --reverse --style full --preview 'cliphist decode {}' --preview-window down | cliphist decode | wl-copy"
+bindsym Mod1+F1           exec $launcher
+bindsym $Mod+f            exec $filemanager
+bindsym $Mod+c            exec makoctl restore
+bindsym Mod1+l            exec loginctl lock-session
+
+# swtchr
+bindsym $Mod+Tab mode swtchr; exec ~/.cargo/bin/swtchr
+bindsym $Mod+Shift+Tab mode swtchr; exec ~/.cargo/bin/swtchr
+mode swtchr bindsym Backspace mode default
+
+# Exit menu
+bindsym $Mod+x exec $exit
+
+# Exit sway (default way to log you out of your Wayland session)
+bindsym $Mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+# screenshot
+bindsym Print exec haruhishot --gui
+bindsym Control+Print exec haruhishot -S (slurp d) --stdout | wl-copy
+# bindsym Shift+Control+Print exec grim -g "$(slurp)" - | swappy -f -
+# bindsym $Mod+Shift+Control+Print exec screenshot focused
+
+# audio
+bindsym $Mod+comma exec playerctl previous
+bindsym $Mod+period exec playerctl play-pause
+bindsym $Mod+slash exec playerctl next
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+
+# Reload the configuration file
+bindsym $Mod+Shift+c reload
+
+###########          Workspace Bindings          ###############
+
+# switch to workspace
+bindsym $Mod+1 workspace number 1
+bindsym $Mod+2 workspace number 2
+bindsym $Mod+3 workspace number 3
+bindsym $Mod+4 workspace number 4
+bindsym $Mod+5 workspace number 5
+bindsym $Mod+6 workspace number 6
+bindsym $Mod+7 workspace number 7
+bindsym $Mod+8 workspace number 8
+
+# switch to workspace - numpad alternatives
+bindsym $Mod+Mod2+KP_1 workspace number 1
+bindsym $Mod+Mod2+KP_2 workspace number 2
+bindsym $Mod+Mod2+KP_3 workspace number 3
+bindsym $Mod+Mod2+KP_4 workspace number 4
+bindsym $Mod+Mod2+KP_5 workspace number 5
+bindsym $Mod+Mod2+KP_6 workspace number 6
+bindsym $Mod+Mod2+KP_7 workspace number 7
+bindsym $Mod+Mod2+KP_8 workspace number 8
+
+# switch to next or previous workspace
+bindsym $Mod+Mod1+Left workspace prev
+bindsym $Mod+Mod1+Right workspace next
+
+# move focused container to workspace
+bindsym $Mod+Shift+1 move container to workspace number 1; workspace number 1
+bindsym $Mod+Shift+2 move container to workspace number 2; workspace number 2
+bindsym $Mod+Shift+3 move container to workspace number 3; workspace number 3
+bindsym $Mod+Shift+4 move container to workspace number 4; workspace number 4
+bindsym $Mod+Shift+5 move container to workspace number 5; workspace number 5
+bindsym $Mod+Shift+6 move container to workspace number 6; workspace number 6
+bindsym $Mod+Shift+7 move container to workspace number 7; workspace number 7
+bindsym $Mod+Shift+8 move container to workspace number 8; workspace number 8
+
+# move focused container to workspace - numpad alternatives
+bindsym $Mod+Shift+Mod2+KP_End   move container to workspace number 1; workspace number 1
+bindsym $Mod+Shift+Mod2+KP_Down  move container to workspace number 2; workspace number 2
+bindsym $Mod+Shift+Mod2+KP_Next  move container to workspace number 3; workspace number 3
+bindsym $Mod+Shift+Mod2+KP_Left  move container to workspace number 4; workspace number 4
+bindsym $Mod+Shift+Mod2+KP_Begin move container to workspace number 5; workspace number 5
+bindsym $Mod+Shift+Mod2+KP_Right move container to workspace number 6; workspace number 7
+bindsym $Mod+Shift+Mod2+KP_Home  move container to workspace number 7; workspace number 7
+bindsym $Mod+Shift+Mod2+KP_Up    move container to workspace number 8; workspace number 8
+
+############      Container/Window control  ############
+
+# Scratchpad, Floating
+bindsym $Mod+space floating toggle
+# Move the currently focused window to the scratchpad
+bindsym $Mod+Shift+z move scratchpad
+bindgesture --exact swipe:3:down move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $Mod+z scratchpad show
+bindgesture --exact swipe:4:down scratchpad show
+
+# alternatively, you can use the cursor keys:
+bindsym $Mod+Left   focus left
+bindsym $Mod+Down   focus down
+bindsym $Mod+Up     focus up
+bindsym $Mod+Right  focus right
+
+# move focus to the parent container
+bindsym $Mod+p      focus parent
+
+# alternatively, you can use the cursor keys:
+bindsym $Mod+Shift+Up    move up
+bindsym $Mod+Shift+Down  move down
+bindsym $Mod+Shift+Left  move left
+bindsym $Mod+Shift+Right move right
+
+# Resizing containers
+mode "resize" {
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $Mod+r mode "resize"
+
+# container layout
+bindsym $Mod+Shift+h split h
+bindsym $Mod+Shift+v split v
+bindsym $Mod+Shift+t layout tabbed
+bindsym $Mod+Shift+s layout stacking
+# bindsym $Mod+Shift+h layout toggle split
+
+# make the current focus fullscreen
+bindsym $Mod+Shift+f floating enable, resize set 100ppt 100ppt, move position center
+
+###############      Border & Gaps     ###############
+
+# changing border style
+bindsym $Mod+b border toggle
+
+# change gaps
+bindsym $Mod+plus                gaps inner current plus  5
+bindsym $Mod+minus               gaps inner current minus 5
+bindsym Mod1+plus                gaps outer current plus  5
+bindsym Mod1+minus               gaps outer current minus 5
+
+bindsym $Mod+KP_Add              gaps inner current plus  5
+bindsym $Mod+KP_Subtract         gaps inner current minus 5
+bindsym Mod1+KP_Add              gaps outer current plus  5
+bindsym Mod1+KP_Subtract         gaps outer current minus 5
+

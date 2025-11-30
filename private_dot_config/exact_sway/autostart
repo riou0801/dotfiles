@@ -32,7 +32,7 @@ exec systemctl --user start iwgtk.service
 exec udiskie -ant --appindicator
 exec_always autotiling --limit 2
 exec foot --server
-# exec slack -s 
+exec slack -s 
 
 # use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
 # waylock, gtklock, wallock or anything else?

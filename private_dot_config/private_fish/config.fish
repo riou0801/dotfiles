@@ -27,6 +27,7 @@ if status is-interactive
     abbr -a yas yay -Ss
     abbr -a pas pacman -Ss
 end
-
+set -g fish_greeting
 zoxide init fish | source
+starship init fish | source
 aliae init fish --config "/home/riou/.config/aliae/aliae.yaml" | source
