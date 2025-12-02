@@ -5,11 +5,15 @@
   - [Crystal linux](https://getcryst.al/site)
     - Archlinux from 2023/4
   - [Sway](https://swaywm.org/) +
-    [nwg-shell](https://nwg-piotr.github.io/nwg-shell/)
-  - [foot](https://codeberg.org/dnkl/foot)
+    ~~[nwg-shell](https://nwg-piotr.github.io/nwg-shell/)~~
+    [waybar](https://github.com/Alexays/Waybar) +
+    [mako](https://github.com/emersion/mako)
+  - ~~[foot](https://codeberg.org/dnkl/foot)~~
+    [wezterm](https://wezterm.org/index.html)
   - [fish](https://fishshell.com/)
   - [helix-editor](https://helix-editor.com/)
-    - Neovim
+    - Neovim & Vim
+    - Zed(for AI)
 
 ## [daily workup](https://www.chezmoi.io/user-guide/daily-operations/)
 
