@@ -11,11 +11,15 @@ if wezterm.config_builder then
 end
 
 -- This is where you actually apply your config choices
--- Spawn a nushell in login mode
-config.default_prog = { '/usr/bin/fish', '-l' }
+config.default_prog = { '/usr/bin/bash', '-l' }
 config.window_background_opacity = 0.9
 config.enable_tab_bar = false
-config.font = wezterm.font 'HackGen35 Console NF'
+
+config.font = wezterm.font_with_fallback {
+  '0xproto Nerd Font Mono',
+  'Noto Sans CJK JP',
+  'Noto Color Emoji'
+}
 config.font_size = 11.0
 -- For example, changing the color scheme:
 config.color_scheme = 'Catppuccin Mocha'

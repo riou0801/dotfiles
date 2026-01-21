@@ -3,6 +3,7 @@ input type:keyboard {
   xkb_layout jp(OADG109A)
   repeat_delay 300
   repeat_rate 40
+  xkb_options ctrl:nocaps
   xkb_capslock disabled
   xkb_numlock disabled
 }

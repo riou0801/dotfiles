@@ -1,4 +1,4 @@
-window#HDMI-A-1 {
+window {
   background-image: url("/home/riou/.config/background/catppuccin_ekg_1.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -7,27 +7,38 @@ window#HDMI-A-1 {
 }
 
 #window-box {
-  background-color: alpha(@theme_bg_color, 0.96);
-  border: 1px solid @borders;
-  box-shadow: 10px 10px 0px @theme_bg_color;
+  background-color: alpha(#1e1e2e, 0.96);
+  border: 1px solid #89b4fa;
+  border-radius: 0.3rem;
+  box-shadow: 10px 10px 0px #1e1e2e;
   padding: 3em;
 }
 
-/* #body { */
-/* background-color: @warning_color; */
-/* } */
-
 #clock-label {
   min-width: 320px;
-  background-color: alpha(@theme_bg_color, 0.1);
-  color: @theme_text_color;
+  background-color: alpha(#1e1e2e, 0.1);
+  color: #cdd6f4;
   font-weight: 500;
   font-size: 16pt;
   padding: 10px 30px;
   margin-bottom: 10px;
-  /* border-radius: 0 0 10px 10px; */
-  /* border: 1px solid alpha(@borders, 0.5); */
   border-top: 0;
+}
+
+#input-field {
+  border-color: #f2cdcd;
+  background-color: alpha(#1e1e2e, 0.96);
+  color: #cdd6f4;
+}
+
+button.suggested-action {
+  background: #a6e3a1;
+  border: none;
+}
+
+button.suggested-action label {
+  text-shadow: none;
+  color: #1e1e2e;
 }
 
 /* hide "Password:" label */

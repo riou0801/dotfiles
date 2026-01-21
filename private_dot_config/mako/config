@@ -1,0 +1,31 @@
+anchor=top-center
+default-timeout=2000
+
+width=480
+height=360
+
+font="0xproto Nerd Font Mono" 16
+text-alignment=left
+padding=10,20
+border-size=3
+
+# Colors
+
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#eba0ac
+progress-color=over #313244
+
+[urgency=critical]
+border-size=4
+border-color=#f38ba8
+default-timeout=3000
+
+[urgency=low]
+border-size=2
+border-color=#6ae3a1
+default-timeout=1000
+
+[urgency=normal]
+border-color=#89b4fa
+

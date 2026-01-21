@@ -42,7 +42,6 @@
   },
   "context_servers": {
     "mcp-server-github": {
-      "source": "extension",
       "enabled": true,
       "settings": {}
     }
@@ -60,7 +59,7 @@
   },
   "icon_theme": "Catppuccin Mocha",
   "base_keymap": "VSCode",
-  "theme": "Catppuccin Mocha",
+  "theme": "Catppuccin Mocha - No Italics",
   "buffer_font_family": "Monaspace Neon",
   "ui_font_family": "HackGen35 Console NF",
   "vim_mode": true,

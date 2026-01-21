@@ -26,8 +26,11 @@ if status is-interactive
     abbr -a hx helix
     abbr -a yas yay -Ss
     abbr -a pas pacman -Ss
+    abbr -a pasi pacman -Si
+
+    bind ctrl-g 'z $(ghq root)/$(ghq list | fzf --height 30 --preview "eza -1 -T --icons --sort name --color always $(ghq root)/{}" --layout reverse --border rounded)' repaint
 end
 set -g fish_greeting
 zoxide init fish | source
 starship init fish | source
-aliae init fish --config "/home/riou/.config/aliae/aliae.yaml" | source
+# aliae init fish --config "/home/riou/.config/aliae/aliae.yaml" | source

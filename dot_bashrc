@@ -8,15 +8,8 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
-#fish 起動
-exec fish
 
 #デフォルトキーレイアウトの変更（Sway）
-#export XKB_DEFAULT_LAYOUT=jp(OADG109A) ->/etc/environment
-
-# export MICRO_TRUECOLOR=1
-# export EDITOR=helix
-export WAVESHELL=bash
 
 #pathを通す
 export PATH=$PATH:~/.local/bin:~/.cargo/bin
@@ -33,4 +26,11 @@ export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
 #export https_proxy="http://172.16.1.2:15080/"
 #export HTTPS_PROXY="http://172.16.1.2:15080/"
 
-. "$HOME/.cargo/env"
+
+# use systemd-environment-d-generator(8) to generate environment, and export those variables
+set -o allexport
+source <(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
+set +o allexport
+
+#fish 起動
+exec fish

@@ -6,8 +6,7 @@
     "height": 36,
     "reload_style_on_change": true,
     "modules-left": [
-      "group/workspaces",
-      "sway/scratchpad"
+      "group/left"
     ],
     "modules-center": [
       "mpris"
@@ -19,11 +18,12 @@
       "tray",
       "clock"
     ],
-    "group/workspaces": {
+    "group/left": {
       "orientation": "inherit",
       "modules": [
         "sway/workspaces",
-        "wlr/taskbar"
+        "wlr/taskbar",
+        "sway/scratchpad"
       ]
     },
     "group/audio": {
@@ -75,7 +75,7 @@
       "timezone": ""
     },
     "disk": {
-      "format": " {specific_free:0.1f}GB",
+      "format": " {free}",
       "unit": "GB"
     },
     "custom/pacman": {
@@ -138,8 +138,7 @@
     "position": "top",
     "height": 36,
     "modules-left": [
-      "group/workspaces",
-      "sway/scratchpad"
+      "group/left"
     ],
     "modules-center": [
       "mpris"
@@ -149,11 +148,12 @@
       "tray",
       "clock"
     ],
-    "group/workspaces": {
+    "group/left": {
       "orientation": "inherit",
       "modules": [
         "sway/workspaces",
-        "wlr/taskbar"
+        "wlr/taskbar",
+        "sway/scratchpad"
       ]
     },
     "group/audio": {

@@ -1,6 +1,6 @@
 ###############     Autostart      ##################
 
-exec --no-startup-id fcitx5 -d
+exec fcitx5 -d
 
 # cliphist
 exec wl-paste --watch cliphist store 
@@ -25,27 +25,19 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako
-# exec /home/riou/.local/bin/wzmach
 
-exec blueman-applet
-exec systemctl --user start iwgtk.service
 exec udiskie -ant --appindicator
-exec_always autotiling --limit 2
-exec foot --server
-exec slack -s 
+exec_always autotiling-rs
 
 # use systemd-lock-handler and swaylock... but, sometime got error with redscreen(maybe swaylock bug)
 # waylock, gtklock, wallock or anything else?
 # refer to 'systemd-swaylock.service'
 exec swayidle -w \
-    timeout 300 'loginctl lock-session' \
+    timeout 300 'gtklock -d' \
     timeout 600 'systemctl suspend' \
     after-resume 'swaymsg reload'
 
-# Swaddle configuration
-exec_always --no-startup-id /home/riou/.local/bin/swaddle &
 
 # memos
 exec docker start memos 
 
-exec_always ~/.cargo/bin/swtchrd
